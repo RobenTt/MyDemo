@@ -24,18 +24,29 @@
         header {
             background: linear-gradient(135deg, #007BFF, #00BFFF);
             color: white;
-            padding: 40px 20px;
+            padding: 20px;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         header h1 {
             margin: 0;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 600;
         }
         header p {
             margin: 10px 0 0;
             font-size: 1.2rem;
+        }
+        #menu-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
         .container {
             display: flex;
@@ -48,11 +59,19 @@
             animation: fadeIn 1s ease-in-out;
         }
         .sidebar {
-            flex: 1;
-            padding: 20px;
+            position: fixed;
+            top: 0;
+            right: -300px; /* Hide sidebar by default */
+            width: 300px;
+            height: 100%;
             background-color: white;
-            overflow-y: auto;
             box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .sidebar.active {
+            right: 0; /* Show sidebar */
         }
         .search-bar {
             display: flex;
@@ -173,11 +192,11 @@
     <header>
         <h1>Gas Station Finder</h1>
         <p>Find the nearest gas station with less waiting time and great service!</p>
-        <button id="find-now">Find Gas Stations Now</button>
+        <button id="menu-toggle"><i class="fas fa-bars"></i></button>
     </header>
     <div class="container">
         <div id="map"></div>
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
             <div class="search-bar">
                 <input type="text" id="search-box" placeholder="Enter location or address...">
                 <button id="search-button"><i class="fas fa-search"></i></button>
@@ -213,6 +232,14 @@
     <!-- Include Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
+        // Toggle sidebar
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        menuToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+
         // Initialize the map
         const map = L.map('map').setView([0, 0], 13); // Default center
 
