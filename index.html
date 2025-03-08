@@ -7,21 +7,107 @@
     <!-- Include Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        #map {
-            height: 400px;
-            width: 100%;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
-        button {
-            margin: 10px;
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex: 1;
+        }
+        #map {
+            flex: 2;
+            height: calc(100vh - 120px);
+        }
+        .sidebar {
+            flex: 1;
+            padding: 20px;
+            background-color: #f4f4f4;
+            overflow-y: auto;
+        }
+        .search-bar {
+            margin-bottom: 20px;
+        }
+        .search-bar input {
+            padding: 10px;
+            width: calc(100% - 120px);
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .search-bar button {
             padding: 10px 20px;
-            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .filters {
+            margin-bottom: 20px;
+        }
+        .filters label {
+            display: block;
+            margin: 5px 0;
+        }
+        .station-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .station-list li {
+            background-color: white;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Gas Station Finder</h1>
-    <div id="map"></div>
-    <button id="locate-me">Turn on Location</button>
+    <header>
+        <h1>Gas Station Finder</h1>
+        <p>Find the nearest gas station with less waiting time and great service!</p>
+    </header>
+    <div class="container">
+        <div id="map"></div>
+        <div class="sidebar">
+            <div class="search-bar">
+                <input type="text" id="search" placeholder="Enter location...">
+                <button id="search-button">Search</button>
+            </div>
+            <div class="filters">
+                <h3>Filters</h3>
+                <label><input type="checkbox" id="fuel-type"> Fuel Type</label>
+                <label><input type="checkbox" id="ev-charging"> EV Charging</label>
+                <label><input type="checkbox" id="emergency-services"> Emergency Services</label>
+                <button id="apply-filters">Apply Filters</button>
+            </div>
+            <div class="station-list">
+                <h3>Nearby Gas Stations</h3>
+                <ul id="stations">
+                    <!-- Gas stations will be added here dynamically -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2023 Gas Station Finder. All rights reserved.</p>
+    </footer>
 
     <!-- Include Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -54,6 +140,41 @@
             } else {
                 alert("Geolocation is not supported by this browser.");
             }
+        });
+
+        // Dummy data for nearby gas stations
+        const stations = [
+            { name: "Station A", address: "123 Main St", waitingTime: "5 mins", rating: 4.5 },
+            { name: "Station B", address: "456 Elm St", waitingTime: "10 mins", rating: 3.8 },
+            { name: "Station C", address: "789 Oak St", waitingTime: "15 mins", rating: 4.2 },
+        ];
+
+        // Display nearby gas stations
+        const stationList = document.getElementById('stations');
+        stations.forEach(station => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <strong>${station.name}</strong><br>
+                <small>${station.address}</small><br>
+                <small>Waiting Time: ${station.waitingTime}</small><br>
+                <small>Rating: ${station.rating} ⭐</small>
+            `;
+            stationList.appendChild(li);
+        });
+
+        // Search functionality
+        document.getElementById('search-button').addEventListener('click', function() {
+            const location = document.getElementById('search').value;
+            alert(`Searching for gas stations near ${location}...`);
+            // Add code to update the map or list view based on the location
+        });
+
+        // Filter functionality
+        document.getElementById('apply-filters').addEventListener('click', function() {
+            const fuelType = document.getElementById('fuel-type').checked;
+            const evCharging = document.getElementById('ev-charging').checked;
+            const emergencyServices = document.getElementById('emergency-services').checked;
+            alert(`Filters applied: Fuel Type - ${fuelType}, EV Charging - ${evCharging}, Emergency Services - ${emergencyServices}`);
         });
     </script>
 </body>
