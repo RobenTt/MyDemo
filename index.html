@@ -96,7 +96,7 @@
         <div id="map"></div>
         <div class="sidebar">
             <div class="search-bar">
-                <input type="text" id="search-box" placeholder="Search for gas stations...">
+                <input type="text" id="search-box" placeholder="Search for places...">
                 <button id="search-button">Search</button>
             </div>
             <button id="locate-me">Turn on Location</button>
@@ -108,9 +108,9 @@
                 <button id="apply-filters">Apply Filters</button>
             </div>
             <div class="station-list">
-                <h3>Nearby Gas Stations</h3>
-                <ul id="stations">
-                    <!-- Gas stations will be added here dynamically -->
+                <h3>Nearby Places</h3>
+                <ul id="places">
+                    <!-- Nearby places will be added here dynamically -->
                 </ul>
             </div>
         </div>
@@ -123,7 +123,7 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         // Initialize the map
-        const map = L.map('map').setView([51.505, -0.09], 13); // Default center (London)
+        const map = L.map('map').setView([0, 0], 13); // Default center
 
         // Add OpenStreetMap tiles (default view)
         const osmTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -146,11 +146,12 @@
         L.control.layers(baseLayers).addTo(map);
 
         // Get user's location
+        let userLocation;
         document.getElementById('locate-me').addEventListener('click', function() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
-                        const userLocation = [position.coords.latitude, position.coords.longitude];
+                        userLocation = [position.coords.latitude, position.coords.longitude];
                         // Center the map on the user's location
                         map.setView(userLocation, 13);
                         // Add a marker at the user's location
@@ -167,11 +168,16 @@
             }
         });
 
-        // Real-time place search using OpenStreetMap Nominatim
+        // Fetch nearby places based on user's location
         const markers = [];
         document.getElementById('search-button').addEventListener('click', function() {
+            if (!userLocation) {
+                alert("Please turn on location first.");
+                return;
+            }
+
             const query = document.getElementById('search-box').value;
-            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
+            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&lat=${userLocation[0]}&lon=${userLocation[1]}&zoom=13&addressdetails=1`;
 
             fetch(url)
                 .then(response => response.json())
@@ -180,11 +186,26 @@
                     markers.forEach(marker => map.removeLayer(marker));
                     markers.length = 0;
 
+                    // Clear existing places list
+                    const placesList = document.getElementById('places');
+                    placesList.innerHTML = '';
+
                     // Add markers for each result
                     data.forEach(place => {
                         const marker = L.marker([place.lat, place.lon]).addTo(map);
-                        marker.bindPopup(`<strong>${place.display_name}</strong>`);
+                        marker.bindPopup(`
+                            <strong>${place.display_name}</strong><br>
+                            <small>Category: ${place.type}</small>
+                        `);
                         markers.push(marker);
+
+                        // Add place to the sidebar list
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                            <strong>${place.display_name}</strong><br>
+                            <small>Category: ${place.type}</small>
+                        `;
+                        placesList.appendChild(li);
                     });
 
                     // Center the map on the first result
