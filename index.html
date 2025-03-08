@@ -96,7 +96,7 @@
         <div id="map"></div>
         <div class="sidebar">
             <div class="search-bar">
-                <input type="text" id="search" placeholder="Enter location...">
+                <input type="text" id="search-box" placeholder="Search for gas stations...">
                 <button id="search-button">Search</button>
             </div>
             <button id="locate-me">Turn on Location</button>
@@ -123,7 +123,7 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         // Initialize the map
-        const map = L.map('map').setView([0, 0], 8); // Default center
+        const map = L.map('map').setView([51.505, -0.09], 13); // Default center (London)
 
         // Add OpenStreetMap tiles (default view)
         const osmTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -167,39 +167,32 @@
             }
         });
 
-        // Dummy data for nearby gas stations
-        const stations = [
-            { name: "Station A", address: "123 Main St", waitingTime: "5 mins", rating: 4.5 },
-            { name: "Station B", address: "456 Elm St", waitingTime: "10 mins", rating: 3.8 },
-            { name: "Station C", address: "789 Oak St", waitingTime: "15 mins", rating: 4.2 },
-        ];
-
-        // Display nearby gas stations
-        const stationList = document.getElementById('stations');
-        stations.forEach(station => {
-            const li = document.createElement('li');
-            li.innerHTML = `
-                <strong>${station.name}</strong><br>
-                <small>${station.address}</small><br>
-                <small>Waiting Time: ${station.waitingTime}</small><br>
-                <small>Rating: ${station.rating} ⭐</small>
-            `;
-            stationList.appendChild(li);
-        });
-
-        // Search functionality
+        // Real-time place search using OpenStreetMap Nominatim
+        const markers = [];
         document.getElementById('search-button').addEventListener('click', function() {
-            const location = document.getElementById('search').value;
-            alert(`Searching for gas stations near ${location}...`);
-            // Add code to update the map or list view based on the location
-        });
+            const query = document.getElementById('search-box').value;
+            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
 
-        // Filter functionality
-        document.getElementById('apply-filters').addEventListener('click', function() {
-            const fuelType = document.getElementById('fuel-type').checked;
-            const evCharging = document.getElementById('ev-charging').checked;
-            const emergencyServices = document.getElementById('emergency-services').checked;
-            alert(`Filters applied: Fuel Type - ${fuelType}, EV Charging - ${evCharging}, Emergency Services - ${emergencyServices}`);
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // Clear existing markers
+                    markers.forEach(marker => map.removeLayer(marker));
+                    markers.length = 0;
+
+                    // Add markers for each result
+                    data.forEach(place => {
+                        const marker = L.marker([place.lat, place.lon]).addTo(map);
+                        marker.bindPopup(`<strong>${place.display_name}</strong>`);
+                        markers.push(marker);
+                    });
+
+                    // Center the map on the first result
+                    if (data.length > 0) {
+                        map.setView([data[0].lat, data[0].lon], 13);
+                    }
+                })
+                .catch(error => console.error('Error fetching data:', error));
         });
     </script>
 </body>
