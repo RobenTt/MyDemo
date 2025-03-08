@@ -99,7 +99,6 @@
                 <input type="text" id="search" placeholder="Enter location...">
                 <button id="search-button">Search</button>
             </div>
-            <!-- Add the "Turn on Location" button here -->
             <button id="locate-me">Turn on Location</button>
             <div class="filters">
                 <h3>Filters</h3>
@@ -126,10 +125,25 @@
         // Initialize the map
         const map = L.map('map').setView([0, 0], 8); // Default center
 
-        // Add OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        // Add OpenStreetMap tiles (default view)
+        const osmTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+        });
+
+        // Add Esri World Imagery tiles (satellite view)
+        const esriTiles = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '© Esri'
+        });
+
+        // Add default tiles (OpenStreetMap)
+        osmTiles.addTo(map);
+
+        // Layer control for switching between map views
+        const baseLayers = {
+            "Street View": osmTiles,
+            "Satellite View": esriTiles,
+        };
+        L.control.layers(baseLayers).addTo(map);
 
         // Get user's location
         document.getElementById('locate-me').addEventListener('click', function() {
