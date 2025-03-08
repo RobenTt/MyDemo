@@ -6,6 +6,8 @@
     <title>Gas Station Finder</title>
     <!-- Include Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,10 +18,19 @@
             height: 100vh;
         }
         header {
-            background-color: #007BFF;
+            background: linear-gradient(135deg, #007BFF, #00BFFF);
             color: white;
             padding: 20px;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        header p {
+            margin: 5px 0 0;
+            font-size: 1rem;
         }
         .container {
             display: flex;
@@ -34,39 +45,52 @@
             padding: 20px;
             background-color: #f4f4f4;
             overflow-y: auto;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
         }
         .search-bar {
+            display: flex;
             margin-bottom: 20px;
         }
         .search-bar input {
+            flex: 1;
             padding: 10px;
-            width: calc(100% - 120px);
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 5px 0 0 5px;
+            font-size: 1rem;
         }
         .search-bar button {
             padding: 10px 20px;
             background-color: #007BFF;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 0 5px 5px 0;
             cursor: pointer;
+            font-size: 1rem;
         }
         #locate-me {
-            padding: 10px 20px;
+            width: 100%;
+            padding: 10px;
             background-color: #28a745;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             margin-bottom: 20px;
+            font-size: 1rem;
         }
         .filters {
             margin-bottom: 20px;
         }
+        .filters h3 {
+            margin-bottom: 10px;
+        }
         .filters label {
             display: block;
             margin: 5px 0;
+            font-size: 0.9rem;
+        }
+        .filters label i {
+            margin-right: 5px;
         }
         .station-list {
             list-style-type: none;
@@ -79,11 +103,20 @@
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+        .station-list li strong {
+            display: block;
+            font-size: 1.1rem;
+        }
+        .station-list li small {
+            display: block;
+            color: #666;
+        }
         footer {
             background-color: #333;
             color: white;
             text-align: center;
             padding: 10px;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -96,15 +129,15 @@
         <div id="map"></div>
         <div class="sidebar">
             <div class="search-bar">
-                <input type="text" id="search-box" placeholder="Search for places...">
-                <button id="search-button">Search</button>
+                <input type="text" id="search-box" placeholder="Enter location or address...">
+                <button id="search-button"><i class="fas fa-search"></i></button>
             </div>
-            <button id="locate-me">Turn on Location</button>
+            <button id="locate-me"><i class="fas fa-location-arrow"></i> Turn on Location</button>
             <div class="filters">
                 <h3>Filters</h3>
-                <label><input type="checkbox" id="fuel-type"> Fuel Type</label>
-                <label><input type="checkbox" id="ev-charging"> EV Charging</label>
-                <label><input type="checkbox" id="emergency-services"> Emergency Services</label>
+                <label><i class="fas fa-gas-pump"></i><input type="checkbox" id="fuel-type"> Fuel Type</label>
+                <label><i class="fas fa-plug"></i><input type="checkbox" id="ev-charging"> EV Charging</label>
+                <label><i class="fas fa-ambulance"></i><input type="checkbox" id="emergency-services"> Emergency Services</label>
                 <button id="apply-filters">Apply Filters</button>
             </div>
             <div class="station-list">
