@@ -93,6 +93,9 @@
         .filters label i {
             margin-right: 5px;
         }
+        .sub-options {
+            margin-left: 20px;
+        }
         .station-list {
             list-style-type: none;
             padding: 0;
@@ -147,6 +150,10 @@
             <div class="filters">
                 <h3>Filters</h3>
                 <label><i class="fas fa-gas-pump"></i><input type="checkbox" id="fuel-type"> Fuel Type</label>
+                <div class="sub-options" id="fuel-sub-options">
+                    <label><input type="checkbox" id="petrol"> Petrol</label>
+                    <label><input type="checkbox" id="diesel"> Diesel</label>
+                </div>
                 <label><i class="fas fa-plug"></i><input type="checkbox" id="ev-charging"> EV Charging</label>
                 <label><i class="fas fa-ambulance"></i><input type="checkbox" id="emergency-services"> Emergency Services</label>
                 <button id="apply-filters">Apply Filters</button>
@@ -258,6 +265,12 @@
                     }
                 })
                 .catch(error => console.error('Error fetching data:', error));
+        });
+
+        // Toggle sub-options for Fuel Type
+        document.getElementById('fuel-type').addEventListener('change', function() {
+            const subOptions = document.getElementById('fuel-sub-options');
+            subOptions.style.display = this.checked ? 'block' : 'none';
         });
     </script>
 </body>
