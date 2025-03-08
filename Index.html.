@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gas Station Finder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Gas Station Finder</h1>
+        <p>Find the nearest gas station with less waiting time and great service!</p>
+    </header>
+
+    <main>
+        <!-- Home Screen -->
+        <section id="home">
+            <h2>Home Screen</h2>
+            <div class="search-bar">
+                <input type="text" id="search" placeholder="Enter location...">
+                <button id="search-button">Search</button>
+            </div>
+            <div id="map">Map will go here</div>
+            <button id="list-view">List View</button>
+            <button id="filter-button">Filter</button>
+        </section>
+
+        <!-- Additional Features -->
+        <section id="features">
+            <h2>Additional Features</h2>
+            <ul>
+                <li>Real-time Fuel Prices</li>
+                <li>Estimated Waiting Time</li>
+                <li>User Ratings & Reviews</li>
+                <li>Favorite Stations</li>
+                <li>Navigation & Directions</li>
+                <li>Loyalty & Discounts</li>
+                <li>Emergency Services</li>
+                <li>EV Charging Stations</li>
+                <li>Dark Mode Option</li>
+                <li>Multilingual Support</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Gas Station Finder. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
