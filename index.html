@@ -35,10 +35,11 @@
         .container {
             display: flex;
             flex: 1;
+            flex-direction: column;
         }
         #map {
             flex: 2;
-            height: calc(100vh - 120px);
+            height: 50vh; /* Smaller map on mobile */
         }
         .sidebar {
             flex: 1;
@@ -117,6 +118,16 @@
             text-align: center;
             padding: 10px;
             font-size: 0.9rem;
+        }
+
+        /* Mobile-friendly adjustments */
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
+            #map {
+                height: calc(100vh - 120px); /* Full height on desktop */
+            }
         }
     </style>
 </head>
