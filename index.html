@@ -8,29 +8,34 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <!-- Include Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Include Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             height: 100vh;
+            background-color: #f4f4f4;
+            color: #333;
         }
         header {
             background: linear-gradient(135deg, #007BFF, #00BFFF);
             color: white;
-            padding: 20px;
+            padding: 40px 20px;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         header h1 {
             margin: 0;
-            font-size: 2rem;
+            font-size: 2.5rem;
+            font-weight: 600;
         }
         header p {
-            margin: 5px 0 0;
-            font-size: 1rem;
+            margin: 10px 0 0;
+            font-size: 1.2rem;
         }
         .container {
             display: flex;
@@ -39,12 +44,13 @@
         }
         #map {
             flex: 2;
-            height: 50vh; /* Smaller map on mobile */
+            height: 50vh;
+            animation: fadeIn 1s ease-in-out;
         }
         .sidebar {
             flex: 1;
             padding: 20px;
-            background-color: #f4f4f4;
+            background-color: white;
             overflow-y: auto;
             box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
         }
@@ -67,6 +73,10 @@
             border-radius: 0 5px 5px 0;
             cursor: pointer;
             font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        .search-bar button:hover {
+            background-color: #0056b3;
         }
         #locate-me {
             width: 100%;
@@ -78,12 +88,17 @@
             cursor: pointer;
             margin-bottom: 20px;
             font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        #locate-me:hover {
+            background-color: #218838;
         }
         .filters {
             margin-bottom: 20px;
         }
         .filters h3 {
             margin-bottom: 10px;
+            font-size: 1.2rem;
         }
         .filters label {
             display: block;
@@ -100,15 +115,17 @@
             margin-right: 10px;
         }
         .station-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
             list-style-type: none;
             padding: 0;
         }
         .station-list li {
             background-color: white;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
+            border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
         }
         .station-list li strong {
             display: block;
@@ -122,8 +139,18 @@
             background-color: #333;
             color: white;
             text-align: center;
-            padding: 10px;
-            font-size: 0.9rem;
+            padding: 20px;
+        }
+        footer p {
+            margin: 0;
+        }
+        footer a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        footer a:hover {
+            color: #007BFF;
         }
 
         /* Mobile-friendly adjustments */
@@ -132,8 +159,13 @@
                 flex-direction: row;
             }
             #map {
-                height: calc(100vh - 120px); /* Full height on desktop */
+                height: calc(100vh - 120px);
             }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
@@ -141,6 +173,7 @@
     <header>
         <h1>Gas Station Finder</h1>
         <p>Find the nearest gas station with less waiting time and great service!</p>
+        <button id="find-now">Find Gas Stations Now</button>
     </header>
     <div class="container">
         <div id="map"></div>
@@ -153,8 +186,8 @@
             <div class="filters">
                 <h3>Filters</h3>
                 <div class="fuel-options">
-                    <label><input type="radio" name="fuel-type" value="petrol"> Petrol</label>
-                    <label><input type="radio" name="fuel-type" value="diesel"> Diesel</label>
+                    <label><input type="radio" name="fuel-type" value="petrol"> <i class="fas fa-gas-pump"></i> Petrol</label>
+                    <label><input type="radio" name="fuel-type" value="diesel"> <i class="fas fa-gas-pump"></i> Diesel</label>
                 </div>
                 <label><i class="fas fa-plug"></i><input type="checkbox" id="ev-charging"> EV Charging</label>
                 <label><i class="fas fa-ambulance"></i><input type="checkbox" id="emergency-services"> Emergency Services</label>
@@ -170,6 +203,11 @@
     </div>
     <footer>
         <p>&copy; 2023 Gas Station Finder. All rights reserved.</p>
+        <div>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
     </footer>
 
     <!-- Include Leaflet JavaScript -->
