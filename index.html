@@ -39,7 +39,7 @@
         .hamburger-menu {
             position: relative;
             margin-left: 10px;
-            order: 1;
+            order: 1;  /* Ensure hamburger is first on small screens */
         }
 
         .menu-icon {
@@ -115,13 +115,12 @@
         }
 
         .auth-buttons {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+            position: absolute; /* Absolute positioning */
+            top: 10px;       /* Position from the top */
+            right: 20px;     /* Position from the right */
             display: flex;
             align-items: center;
-            margin-right: 10px;
-            z-index: 2;
+            z-index: 3;     /* Ensure it's above other elements */
         }
 
         .auth-buttons button {
@@ -143,13 +142,14 @@
         .top-search-bar {
             display: flex;
             align-items: center;
-            order: 2;
-            flex: 1;
-            max-width: 100%;
-            margin: 5px 10px;
-            margin-left: 10px;
-            z-index: 1;
+            order: 3;  /* Place search bar after hamburger and auth buttons */
+            flex: 1;    /* Allow it to grow to fill available space */
+            max-width: calc(100% - 200px);  /* Prevent overlap with auth buttons */
+			margin-right: 220px;
+            margin-left: 10px; /*Consistent with hamburger margin*/
+            z-index: 1; /*Sit below the hamburger*/
         }
+
 
         .top-search-bar input {
             flex: 1;
@@ -366,31 +366,42 @@
             cursor: pointer;
         }
 
+        /* Larger screens - Keep layout */
         @media (min-width: 768px) {
             .container {
                 flex-direction: row;
             }
 
             #map {
-                height: calc(100vh - 120px);
+                height: calc(100vh - 70px); /* Adjust for header height */
             }
 
             .hamburger-menu {
-                display: none;
+                display: none; /* Hide hamburger on larger screens */
+            }
+			.auth-buttons {
+				top: 10px;
+				right: 20px;
+			}
+             .top-search-bar {
+                max-width: calc(100% - 200px);  /* Prevent overlap with auth buttons */
+			    margin-right: 220px;
+                margin-left: 10px; /*Consistent with hamburger margin*/
+
             }
         }
 
+        /* Smaller screens - Adjust layout */
         @media (max-width: 600px) {
             header {
                 flex-direction: column;
                 align-items: stretch;
-
             }
 
             .auth-buttons {
-                position: relative;
+                position: relative; /* Reset to relative for mobile */
                 margin: 5px auto;
-                order: 1;
+                order: 2;
                 top: auto;
                 right: auto;
 
@@ -400,7 +411,8 @@
                 order: 3;
                 max-width: 100%;
                 margin: 5px 0;
-                margin-left:0px;
+                margin-left:0px; /*Consistent with hamburger margin*/
+				margin-right: 0px;
             }
 
             .top-search-bar input {
@@ -432,10 +444,12 @@
                 </ul>
             </nav>
         </div>
+        <!-- Auth buttons - Now positioned correctly -->
         <div class="auth-buttons">
             <button id="signup-btn">Sign Up</button>
             <button id="login-btn">Login</button>
         </div>
+
         <div class="search-bar top-search-bar">
             <input type="text" id="search-box" placeholder="Enter location or address...">
             <button id="search-button"><i class="fas fa-search"></i></button>
@@ -731,4 +745,4 @@
         });
     </script>
 </body>
-                </html>
+    </html>
