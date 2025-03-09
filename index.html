@@ -501,9 +501,9 @@
     <!-- Include Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        // Initialize the map
+// Initialize the map
         const map = L.map('map').setView([0, 0], 13); // Default center
-
+        const markers = [];
         // Add OpenStreetMap tiles (default view)
         const osmTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
@@ -524,85 +524,135 @@
         };
         L.control.layers(baseLayers).addTo(map);
 
-        // Get user's location
+
+        //Improved Function
         let userLocation;
-        document.getElementById('locate-me').addEventListener('click', function() {
+
+    function getUserLocation() {
+        return new Promise((resolve, reject) => {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         userLocation = [position.coords.latitude, position.coords.longitude];
-                        // Center the map on the user's location
-                        map.setView(userLocation, 13);
-                        // Add a marker at the user's location
-                        L.marker(userLocation).addTo(map)
-                            .bindPopup("Your Location")
-                            .openPopup();
+                        resolve(userLocation);
                     },
                     (error) => {
-                        alert("Error getting location: " + error.message);
+                        reject(error); // Reject the promise on error
                     }
                 );
             } else {
-                alert("Geolocation is not supported by this browser.");
+                reject(new Error("Geolocation is not supported by this browser.")); // Reject if not supported
             }
         });
+    }
 
-        // Fetch nearby places based on user's location
-        const markers = [];
-        document.getElementById('search-button').addEventListener('click', function() {
-            if (!userLocation) {
-                alert("Please turn on location first.");
-                return;
-            }
 
-            const query = document.getElementById('search-box').value;
-            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&lat=${userLocation[0]}&lon=${userLocation[1]}&zoom=13&addressdetails=1`;
+      function searchNearbyPlaces(query, fuelType, evCharging, emergencyServices) {
+        const locationToUse = userLocation || [40.7128, -74.0060]; //Default location
+        let url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&lat=${locationToUse[0]}&lon=${locationToUse[1]}&zoom=13&addressdetails=1`;
+        //Add the filters
+        let amenity = "";
+        if(fuelType || evCharging || emergencyServices){
+            if(fuelType == 'petrol') amenity = amenity + "fuel,";
+            if(fuelType == 'diesel') amenity = amenity + "fuel,";
+            if(evCharging) amenity = amenity + "charging_station,";
+            if(emergencyServices) amenity = amenity +"fire_station,police,";
+            amenity = amenity.slice(0,-1);
+            url = url + `&amenity=${amenity}`;
+        }
+        //Other code that uses url
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Clear existing markers
+                markers.forEach(marker => map.removeLayer(marker));
+                markers.length = 0;
 
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    // Clear existing markers
-                    markers.forEach(marker => map.removeLayer(marker));
-                    markers.length = 0;
+                // Clear existing places list
+                const placesList = document.getElementById('places');
+                placesList.innerHTML = '';
+                // Add markers for each result
+                data.forEach(place => {
+                    const marker = L.marker([place.lat, place.lon]).addTo(map);
+                    marker.bindPopup(`
+                        <strong>${place.display_name}</strong><br>
+                        <small>Category: ${place.type}</small>
+                    `);
+                    markers.push(marker);
 
-                    // Clear existing places list
-                    const placesList = document.getElementById('places');
-                    placesList.innerHTML = '';
+                    // Add place to the sidebar list
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <strong>${place.display_name}</strong><br>
+                        <small>Category: ${place.type}</small>
+                    `;
+                    placesList.appendChild(li);
+                });
 
-                    // Add markers for each result
-                    data.forEach(place => {
-                        const marker = L.marker([place.lat, place.lon]).addTo(map);
-                        marker.bindPopup(`
-                            <strong>${place.display_name}</strong><br>
-                            <small>Category: ${place.type}</small>
-                        `);
-                        markers.push(marker);
+                // Center the map on the first result, or the default location if no results
+                if (data.length > 0) {
+                    map.setView([data[0].lat, data[0].lon], 13);
+                } else {
+                    map.setView(locationToUse, 13); // Center on default if no results
+                    alert("No results found for your query.");
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                alert("An error occurred while searching. Please try again.");
+            });
+    }
 
-                        // Add place to the sidebar list
-                        const li = document.createElement('li');
-                        li.innerHTML = `
-                            <strong>${place.display_name}</strong><br>
-                            <small>Category: ${place.type}</small>
-                        `;
-                        placesList.appendChild(li);
-                    });
-
-                    // Center the map on the first result
-                    if (data.length > 0) {
-                        map.setView([data[0].lat, data[0].lon], 13);
-                    }
-                })
-                .catch(error => console.error('Error fetching data:', error));
+    // Call getUserLocation when the page loads, and handle success/failure
+    getUserLocation()
+        .then(location => {
+            map.setView(location, 13);
+            L.marker(location).addTo(map).bindPopup("Your Location").openPopup();
+             // Now that you have the location, you could trigger an initial search here
+            searchNearbyPlaces(""); // Initial search with empty query
+        })
+        .catch(error => {
+            console.error("Could not get user location:", error);
+            alert("Could not get your location. Please ensure location services are enabled and try again, or use the search bar.");
+             // Set a default map view if geolocation fails.
+            map.setView([40.7128, -74.0060], 10); // Example: New York City
         });
 
-        // Apply filters
-        document.getElementById('apply-filters').addEventListener('click', function() {
-            const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
-            const evCharging = document.getElementById('ev-charging').checked;
-            const emergencyServices = document.getElementById('emergency-services').checked;
-
-            alert(`Filters applied:\nFuel Type: ${fuelType || 'None'}\nEV Charging: ${evCharging}\nEmergency Services: ${emergencyServices}`);
+    //Locate me functionality
+    document.getElementById('locate-me').addEventListener('click', function() {
+        getUserLocation() //Gets user location
+        .then(location => { //If succeded
+            map.setView(location, 13);
+            L.marker(location).addTo(map).bindPopup("Your Location").openPopup();
+        })
+        .catch(error => { //If not succeded
+            console.error("Could not get user location:", error);
+            alert("Could not get your location. Please ensure location services are enabled and try again, or use the search bar.");
         });
+    });
+
+    //Search Button functionality
+     document.getElementById('search-button').addEventListener('click', function() {
+        const query = document.getElementById('search-box').value;
+        const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
+        const evCharging = document.getElementById('ev-charging').checked;
+        const emergencyServices = document.getElementById('emergency-services').checked;
+        searchNearbyPlaces(query,fuelType,evCharging,emergencyServices);
+    });
+
+     // Apply filters - Updated to call searchNearbyPlaces with filter values
+       document.getElementById('apply-filters').addEventListener('click', function() {
+           const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
+           const evCharging = document.getElementById('ev-charging').checked;
+           const emergencyServices = document.getElementById('emergency-services').checked;
+           searchNearbyPlaces("",fuelType,evCharging,emergencyServices);
+
+    });
 
         // Modal functionality
         const signupModal = document.getElementById('signup-modal');
@@ -681,4 +731,4 @@
         });
     </script>
 </body>
-    </html>
+                </html>
