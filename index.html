@@ -57,6 +57,60 @@
         .auth-buttons button:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
+
+        /* Hamburger Menu */
+        .hamburger {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: white;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        .mobile-menu ul li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .mobile-menu ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.2rem;
+        }
+
+        /* Show hamburger on small screens */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            .auth-buttons {
+                display: none;
+            }
+        }
+
         .container {
             display: flex;
             flex: 1;
@@ -253,6 +307,21 @@
 </head>
 <body>
     <header>
+        <!-- Hamburger Button -->
+        <button class="hamburger" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Mobile Navigation Menu -->
+        <nav class="mobile-menu" id="mobile-menu">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Find Gas Stations</a></li>
+                <li><a href="#">Filters</a></li>
+                <li><a href="#">Login / Sign Up</a></li>
+            </ul>
+        </nav>
+
         <div class="auth-buttons">
             <button id="signup-btn">Sign Up</button>
             <button id="login-btn">Login</button>
@@ -287,209 +356,4 @@
             </div>
         </div>
     </div>
-    <footer>
-        <p>&copy; 2023 Gas Station Finder. All rights reserved.</p>
-        <div>
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-        </div>
-    </footer>
-
-    <!-- Sign Up Modal -->
-    <div id="signup-modal" class="modal">
-        <div class="modal-content">
-            <button class="close-modal" id="close-signup">&times;</button>
-            <h2>Sign Up</h2>
-            <input type="text" id="signup-username" placeholder="Username">
-            <input type="email" id="signup-email" placeholder="Email">
-            <input type="password" id="signup-password" placeholder="Password">
-            <button id="signup-submit">Sign Up</button>
-            <p>Already have an account? <a href="#" id="login-link">Login</a></p>
-        </div>
-    </div>
-
-    <!-- Login Modal -->
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <button class="close-modal" id="close-login">&times;</button>
-            <h2>Login</h2>
-            <input type="text" id="login-username" placeholder="Username">
-            <input type="password" id="login-password" placeholder="Password">
-            <button id="login-submit">Login</button>
-            <p>Don't have an account? <a href="#" id="signup-link">Sign Up</a></p>
-        </div>
-    </div>
-
-    <!-- Include Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-        // Initialize the map
-        const map = L.map('map').setView([0, 0], 13); // Default center
-
-        // Add OpenStreetMap tiles (default view)
-        const osmTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        });
-
-        // Add Esri World Imagery tiles (satellite view)
-        const esriTiles = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            attribution: '© Esri'
-        });
-
-        // Add default tiles (OpenStreetMap)
-        osmTiles.addTo(map);
-
-        // Layer control for switching between map views
-        const baseLayers = {
-            "Street View": osmTiles,
-            "Satellite View": esriTiles,
-        };
-        L.control.layers(baseLayers).addTo(map);
-
-        // Get user's location
-        let userLocation;
-        document.getElementById('locate-me').addEventListener('click', function() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        userLocation = [position.coords.latitude, position.coords.longitude];
-                        // Center the map on the user's location
-                        map.setView(userLocation, 13);
-                        // Add a marker at the user's location
-                        L.marker(userLocation).addTo(map)
-                            .bindPopup("Your Location")
-                            .openPopup();
-                    },
-                    (error) => {
-                        alert("Error getting location: " + error.message);
-                    }
-                );
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
-        });
-
-        // Fetch nearby places based on user's location
-        const markers = [];
-        document.getElementById('search-button').addEventListener('click', function() {
-            if (!userLocation) {
-                alert("Please turn on location first.");
-                return;
-            }
-
-            const query = document.getElementById('search-box').value;
-            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&lat=${userLocation[0]}&lon=${userLocation[1]}&zoom=13&addressdetails=1`;
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    // Clear existing markers
-                    markers.forEach(marker => map.removeLayer(marker));
-                    markers.length = 0;
-
-                    // Clear existing places list
-                    const placesList = document.getElementById('places');
-                    placesList.innerHTML = '';
-
-                    // Add markers for each result
-                    data.forEach(place => {
-                        const marker = L.marker([place.lat, place.lon]).addTo(map);
-                        marker.bindPopup(`
-                            <strong>${place.display_name}</strong><br>
-                            <small>Category: ${place.type}</small>
-                        `);
-                        markers.push(marker);
-
-                        // Add place to the sidebar list
-                        const li = document.createElement('li');
-                        li.innerHTML = `
-                            <strong>${place.display_name}</strong><br>
-                            <small>Category: ${place.type}</small>
-                        `;
-                        placesList.appendChild(li);
-                    });
-
-                    // Center the map on the first result
-                    if (data.length > 0) {
-                        map.setView([data[0].lat, data[0].lon], 13);
-                    }
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        });
-
-        // Apply filters
-        document.getElementById('apply-filters').addEventListener('click', function() {
-            const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
-            const evCharging = document.getElementById('ev-charging').checked;
-            const emergencyServices = document.getElementById('emergency-services').checked;
-
-            alert(`Filters applied:\nFuel Type: ${fuelType || 'None'}\nEV Charging: ${evCharging}\nEmergency Services: ${emergencyServices}`);
-        });
-
-        // Modal functionality
-        const signupModal = document.getElementById('signup-modal');
-        const loginModal = document.getElementById('login-modal');
-        const signupBtn = document.getElementById('signup-btn');
-        const loginBtn = document.getElementById('login-btn');
-        const closeSignup = document.getElementById('close-signup');
-        const closeLogin = document.getElementById('close-login');
-        const loginLink = document.getElementById('login-link');
-        const signupLink = document.getElementById('signup-link');
-
-        signupBtn.addEventListener('click', () => {
-            signupModal.style.display = 'flex';
-        });
-
-        loginBtn.addEventListener('click', () => {
-            loginModal.style.display = 'flex';
-        });
-
-        closeSignup.addEventListener('click', () => {
-            signupModal.style.display = 'none';
-        });
-
-        closeLogin.addEventListener('click', () => {
-            loginModal.style.display = 'none';
-        });
-
-        loginLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            signupModal.style.display = 'none';
-            loginModal.style.display = 'flex';
-        });
-
-        signupLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            loginModal.style.display = 'none';
-            signupModal.style.display = 'flex';
-        });
-
-        // Sign Up and Login functionality (basic example)
-        document.getElementById('signup-submit').addEventListener('click', () => {
-            const username = document.getElementById('signup-username').value;
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
-
-            if (username && email && password) {
-                alert(`Sign Up Successful!\nUsername: ${username}\nEmail: ${email}`);
-                signupModal.style.display = 'none';
-            } else {
-                alert('Please fill in all fields.');
-            }
-        });
-
-        document.getElementById('login-submit').addEventListener('click', () => {
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
-
-            if (username && password) {
-                alert(`Login Successful!\nUsername: ${username}`);
-                loginModal.style.display = 'none';
-            } else {
-                alert('Please fill in all fields.');
-            }
-        });
-    </script>
-</body>
-    </html>
+    <
