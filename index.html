@@ -6,6 +6,8 @@
     <title>Gas Station Finder</title>
     <!-- Include Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Include Leaflet Routing Machine CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <!-- Include Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Include Google Fonts -->
@@ -81,9 +83,8 @@
 
     <!-- Include Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <!-- Include Leaflet Routing Machine -->
+    <!-- Include Leaflet Routing Machine JavaScript -->
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <script>
         // Initialize the map
         const map = L.map('map').setView([0, 0], 13); // Default center
@@ -181,37 +182,36 @@
                 .catch(error => console.error('Error fetching data:', error));
         });
 
-        // Function to get directions
+        // Function to get directions using Leaflet Routing Machine
+        let routingControl;
         function getDirections(start, end) {
-            const directionsPanel = document.getElementById('directions-list');
-            directionsPanel.innerHTML = '<li>Loading directions...</li>';
+            // Remove existing routing control if it exists
+            if (routingControl) {
+                map.removeControl(routingControl);
+            }
 
-            // Use OpenRouteService API to get directions
-            const apiKey = 'YOUR_OPENROUTESERVICE_API_KEY'; // Replace with your API key
-            const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${start[1]},${start[0]}&end=${end[1]},${end[0]}`;
+            // Initialize routing control
+            routingControl = L.Routing.control({
+                waypoints: [
+                    L.latLng(start[0], start[1]), // Start point (user's location)
+                    L.latLng(end[0], end[1]) // End point (selected place)
+                ],
+                routeWhileDragging: true,
+                show: false, // Hide the default directions panel
+            }).addTo(map);
 
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    const route = data.features[0];
-                    const steps = route.properties.segments[0].steps;
+            // Display step-by-step directions in the sidebar
+            routingControl.on('routesfound', function(e) {
+                const routes = e.routes;
+                const directionsList = document.getElementById('directions-list');
+                directionsList.innerHTML = '';
 
-                    // Display step-by-step directions
-                    directionsPanel.innerHTML = '';
-                    steps.forEach(step => {
-                        const li = document.createElement('li');
-                        li.textContent = step.instruction;
-                        directionsPanel.appendChild(li);
-                    });
-
-                    // Draw the route on the map
-                    const routeCoordinates = route.geometry.coordinates.map(coord => [coord[1], coord[0]]);
-                    L.polyline(routeCoordinates, { color: 'blue' }).addTo(map);
-                })
-                .catch(error => {
-                    console.error('Error fetching directions:', error);
-                    directionsPanel.innerHTML = '<li>Failed to load directions.</li>';
+                routes[0].instructions.forEach(instruction => {
+                    const li = document.createElement('li');
+                    li.textContent = instruction.text;
+                    directionsList.appendChild(li);
                 });
+            });
         }
 
         // (Rest of the JavaScript code remains the same)
