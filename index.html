@@ -57,6 +57,119 @@
         .auth-buttons button:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
+
+        /* Hamburger Menu */
+        .hamburger {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: white;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        .mobile-menu ul li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .mobile-menu ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.2rem;
+        }
+
+        /* Show hamburger on small screens */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Hamburger Button -->
+        <button class="hamburger" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Mobile Navigation Menu -->
+        <nav class="mobile-menu" id="mobile-menu">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Find Gas Stations</a></li>
+                <li><a href="#">Filters</a></li>
+                <li><a href="#">Login / Sign Up</a></li>
+            </ul>
+        </nav>
+
+        <div class="auth-buttons">
+            <button id="signup-btn">Sign Up</button>
+            <button id="login-btn">Login</button>
+        </div>
+        <h1>Gas Station Finder</h1>
+        <p>Find the nearest gas station with less waiting time and great service!</p>
+        <button id="find-now">Find Gas Stations Now</button>
+    </header>
+
+    <!-- Your existing content remains the same -->
+    
+    <script>
+        // Hamburger Menu Toggle
+        document.getElementById("menu-toggle").addEventListener("click", function() {
+            var menu = document.getElementById("mobile-menu");
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>
+        }
+        .auth-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .auth-buttons button {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 8px 16px;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+        .auth-buttons button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
         .container {
             display: flex;
             flex: 1;
