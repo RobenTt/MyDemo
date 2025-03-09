@@ -28,21 +28,21 @@
             padding: 10px 20px;
             text-align: left;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
+            position: relative; /* Important for absolute positioning of children */
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            justify-content: space-between; /* Distributes space */
+            flex-wrap: wrap; /* Allows wrapping on smaller screens */
             min-height: 50px;
         }
 
         .hamburger-menu {
-            position: relative;
+            position: relative; /*  For the slide-out menu */
             margin-left: 10px;
-            order: 1;  /* Ensure hamburger is first on small screens */
+            order: 1;  /* Hamburger first on small screens */
         }
 
-        .menu-icon {
+        .menu-icon { /* Style for the hamburger icon itself */
             display: block;
             width: 30px;
             height: 30px;
@@ -50,7 +50,7 @@
             padding: 5px;
         }
 
-        .line {
+        .line { /* Style for each line of the hamburger */
             width: 100%;
             height: 3px;
             background-color: white;
@@ -58,11 +58,12 @@
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        #menu-toggle {
+        #menu-toggle { /* Hide the checkbox */
             display: none;
         }
 
-        .slide-menu {
+        /*  (slide-menu styles remain the same)  */
+         .slide-menu {
             position: fixed;
             top: 0;
             left: -250px;
@@ -115,12 +116,12 @@
         }
 
         .auth-buttons {
-            position: absolute; /* Absolute positioning */
-            top: 10px;       /* Position from the top */
-            right: 20px;     /* Position from the right */
+            position: absolute; /* Absolute positioning within the header */
+            top: 10px;
+            right: 20px;
             display: flex;
             align-items: center;
-            z-index: 3;     /* Ensure it's above other elements */
+            z-index: 3; /* Ensure it's above other elements */
         }
 
         .auth-buttons button {
@@ -128,13 +129,12 @@
             border: 1px solid white;
             color: white;
             padding: 8px 16px;
-            margin-left: 5px;
+            margin-left: 5px; /* Space between buttons */
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.9rem;
             transition: background-color 0.3s ease;
         }
-
         .auth-buttons button:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
@@ -142,17 +142,16 @@
         .top-search-bar {
             display: flex;
             align-items: center;
-            order: 3;  /* Place search bar after hamburger and auth buttons */
-            flex: 1;    /* Allow it to grow to fill available space */
-            max-width: calc(100% - 200px);  /* Prevent overlap with auth buttons */
-			margin-right: 220px;
-            margin-left: 10px; /*Consistent with hamburger margin*/
-            z-index: 1; /*Sit below the hamburger*/
+            order: 3;          /* Search bar *after* hamburger and buttons on small screens */
+            flex: 1;          /* Allow it to grow */
+            max-width: 60%;  /* Limit width to prevent overlap (Adjust as needed!)*/
+            margin-left: 10px;
+            margin-right: 150px; /* Space for auth buttons on larger screens */
+            z-index: 1;
         }
 
-
         .top-search-bar input {
-            flex: 1;
+            flex: 1; /* Input field takes up available space */
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -366,64 +365,56 @@
             cursor: pointer;
         }
 
-        /* Larger screens - Keep layout */
+        /* --- Media Queries --- */
+
+        /* Larger screens (768px and up) */
         @media (min-width: 768px) {
             .container {
                 flex-direction: row;
             }
 
             #map {
-                height: calc(100vh - 70px); /* Adjust for header height */
+                height: calc(100vh - 70px);  /* Adjust as needed */
             }
 
             .hamburger-menu {
                 display: none; /* Hide hamburger on larger screens */
             }
-			.auth-buttons {
-				top: 10px;
-				right: 20px;
-			}
-             .top-search-bar {
-                max-width: calc(100% - 200px);  /* Prevent overlap with auth buttons */
-			    margin-right: 220px;
-                margin-left: 10px; /*Consistent with hamburger margin*/
 
+            .auth-buttons {
+                top: 10px; /*Consistent with smaller media query*/
+                right: 20px;/*Consistent with smaller media query*/
+            }
+            .top-search-bar{
+                margin-right: 150px; /*Consistent with smaller media query*/
+                max-width: 60%; /*Consistent with smaller media query*/
             }
         }
 
-        /* Smaller screens - Adjust layout */
+        /* Smaller screens (up to 600px) - Mobile adjustments */
         @media (max-width: 600px) {
             header {
                 flex-direction: column;
-                align-items: stretch;
+                align-items: stretch; /* Stretch items to full width */
             }
-
+            /*Crucial part*/
             .auth-buttons {
-                position: relative; /* Reset to relative for mobile */
-                margin: 5px auto;
-                order: 2;
-                top: auto;
-                right: auto;
+                position: absolute; /* Keep absolute, but adjust */
+                top: 10px;
+                right: 10px;
+                margin: 0; /* Reset margins */
+                order: 2;   /* Place after hamburger */
 
             }
 
-           .top-search-bar {
-                order: 3;
-                max-width: 100%;
-                margin: 5px 0;
-                margin-left:0px; /*Consistent with hamburger margin*/
-				margin-right: 0px;
-            }
-
-            .top-search-bar input {
-                border-radius: 5px;
-            }
-
-            .top-search-bar button {
-                border-radius: 5px;
+            .top-search-bar {
+                order: 3;        /* Search bar *after* auth buttons */
+                max-width: 95%;  /* Allow it to take almost full width */
+                margin: 10px auto;  /* Center the search bar */
+                margin-right: 0px; /*Reset margin*/
+                margin-left: 10px;
             }
         }
-
     </style>
 </head>
 <body>
@@ -613,7 +604,8 @@
                     map.setView([data[0].lat, data[0].lon], 13);
                 } else {
                     map.setView(locationToUse, 13); // Center on default if no results
-                    alert("No results found for your query.");
+                    //ONLY SHOW IF SEARCHED
+                    if(query) alert("No results found for your query."); // Only show if search
                 }
             })
             .catch(error => {
@@ -628,7 +620,7 @@
             map.setView(location, 13);
             L.marker(location).addTo(map).bindPopup("Your Location").openPopup();
              // Now that you have the location, you could trigger an initial search here
-            searchNearbyPlaces(""); // Initial search with empty query
+            //searchNearbyPlaces(""); // Initial search with empty query COMMENTED
         })
         .catch(error => {
             console.error("Could not get user location:", error);
@@ -745,4 +737,4 @@
         });
     </script>
 </body>
-    </html>
+				</html>
