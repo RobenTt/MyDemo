@@ -4,317 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gas Station Finder</title>
-    <!-- Include Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <!-- Include Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Include Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        header {
-            background: linear-gradient(135deg, #007BFF, #00BFFF);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 600;
-        }
-        header p {
-            margin: 10px 0 0;
-            font-size: 1.2rem;
-        }
-        .container {
-            display: flex;
-            flex: 1;
-            flex-direction: column;
-        }
-        #map {
-            flex: 2;
-            height: 50vh;
-            animation: fadeIn 1s ease-in-out;
-        }
-        .sidebar {
-            flex: 1;
-            padding: 20px;
-            background-color: white;
-            overflow-y: auto;
-            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-        }
-        .search-bar {
-            display: flex;
-            margin-bottom: 20px;
-        }
-        .search-bar input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px 0 0 5px;
-            font-size: 1rem;
-        }
-        .search-bar button {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-        .search-bar button:hover {
-            background-color: #0056b3;
-        }
-        #locate-me {
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-        #locate-me:hover {
-            background-color: #218838;
-        }
-        .filters {
-            margin-bottom: 20px;
-        }
-        .filters h3 {
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        .filters label {
-            display: block;
-            margin: 5px 0;
-            font-size: 0.9rem;
-        }
-        .filters label i {
-            margin-right: 5px;
-        }
-        .fuel-options {
-            margin-bottom: 10px;
-        }
-        .fuel-options label {
-            margin-right: 10px;
-        }
-        .station-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-            list-style-type: none;
-            padding: 0;
-        }
-        .station-list li {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-        }
-        .station-list li strong {
-            display: block;
-            font-size: 1.1rem;
-        }
-        .station-list li small {
-            display: block;
-            color: #666;
-        }
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-        footer p {
-            margin: 0;
-        }
-        footer a {
-            color: white;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-        footer a:hover {
-            color: #007BFF;
-        }
-
-        /* Mobile-friendly adjustments */
-        @media (min-width: 768px) {
-            .container {
-                flex-direction: row;
-            }
-            #map {
-                height: calc(100vh - 120px);
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <h1>Gas Station Finder</h1>
         <p>Find the nearest gas station with less waiting time and great service!</p>
-        <button id="find-now">Find Gas Stations Now</button>
+        <div id="auth-buttons">
+            <button id="loginBtn">Login</button>
+            <button id="signupBtn">Signup</button>
+        </div>
     </header>
-    <div class="container">
-        <div id="map"></div>
-        <div class="sidebar">
-            <div class="search-bar">
-                <input type="text" id="search-box" placeholder="Enter location or address...">
-                <button id="search-button"><i class="fas fa-search"></i></button>
+    <main>
+        <!-- Filters Section -->
+        <section id="filters">
+            <h2>Filters</h2>
+            <div class="filter-options">
+                <label><input type="checkbox" id="petrol"> Petrol</label>
+                <label><input type="checkbox" id="diesel" checked> Diesel</label>
+                <label><input type="checkbox" id="evCharging"> EV Charging</label>
+                <label><input type="checkbox" id="emergencyServices"> Emergency Services</label>
+                <label>Price Range: <input type="range" id="priceRange" min="1" max="100"></label>
+                <label>Brand: 
+                    <select id="brandFilter">
+                        <option value="all">All</option>
+                        <option value="shell">Shell</option>
+                        <option value="bp">BP</option>
+                        <option value="chevron">Chevron</option>
+                    </select>
+                </label>
             </div>
-            <button id="locate-me"><i class="fas fa-location-arrow"></i> Turn on Location</button>
-            <div class="filters">
-                <h3>Filters</h3>
-                <div class="fuel-options">
-                    <label><input type="radio" name="fuel-type" value="petrol"> <i class="fas fa-gas-pump"></i> Petrol</label>
-                    <label><input type="radio" name="fuel-type" value="diesel"> <i class="fas fa-gas-pump"></i> Diesel</label>
-                </div>
-                <label><i class="fas fa-plug"></i><input type="checkbox" id="ev-charging"> EV Charging</label>
-                <label><i class="fas fa-ambulance"></i><input type="checkbox" id="emergency-services"> Emergency Services</label>
-                <button id="apply-filters">Apply Filters</button>
-            </div>
-            <div class="station-list">
-                <h3>Nearby Places</h3>
-                <ul id="places">
-                    <!-- Nearby places will be added here dynamically -->
-                </ul>
+            <button id="applyFilters">Apply Filters</button>
+        </section>
+
+        <!-- Map Section -->
+        <section id="map"></section>
+
+        <!-- Reviews Section -->
+        <section id="reviews">
+            <h2>User Reviews</h2>
+            <div id="reviewList"></div>
+            <form id="reviewForm">
+                <input type="text" id="reviewText" placeholder="Write a review" required>
+                <input type="number" id="reviewRating" min="1" max="5" placeholder="Rating (1-5)" required>
+                <button type="submit">Submit Review</button>
+            </form>
+        </section>
+
+        <!-- Login Modal -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <input type="email" id="loginEmail" placeholder="Email" required>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                </form>
             </div>
         </div>
-    </div>
+
+        <!-- Signup Modal -->
+        <div id="signupModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Signup</h2>
+                <form id="signupForm">
+                    <input type="text" id="signupName" placeholder="Full Name" required>
+                    <input type="email" id="signupEmail" placeholder="Email" required>
+                    <input type="password" id="signupPassword" placeholder="Password" required>
+                    <button type="submit">Signup</button>
+                </form>
+            </div>
+        </div>
+    </main>
     <footer>
         <p>&copy; 2023 Gas Station Finder. All rights reserved.</p>
-        <div>
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-        </div>
     </footer>
-
-    <!-- Include Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-        // Initialize the map
-        const map = L.map('map').setView([0, 0], 13); // Default center
-
-        // Add OpenStreetMap tiles (default view)
-        const osmTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        });
-
-        // Add Esri World Imagery tiles (satellite view)
-        const esriTiles = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            attribution: '© Esri'
-        });
-
-        // Add default tiles (OpenStreetMap)
-        osmTiles.addTo(map);
-
-        // Layer control for switching between map views
-        const baseLayers = {
-            "Street View": osmTiles,
-            "Satellite View": esriTiles,
-        };
-        L.control.layers(baseLayers).addTo(map);
-
-        // Get user's location
-        let userLocation;
-        document.getElementById('locate-me').addEventListener('click', function() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        userLocation = [position.coords.latitude, position.coords.longitude];
-                        // Center the map on the user's location
-                        map.setView(userLocation, 13);
-                        // Add a marker at the user's location
-                        L.marker(userLocation).addTo(map)
-                            .bindPopup("Your Location")
-                            .openPopup();
-                    },
-                    (error) => {
-                        alert("Error getting location: " + error.message);
-                    }
-                );
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
-        });
-
-        // Fetch nearby places based on user's location
-        const markers = [];
-        document.getElementById('search-button').addEventListener('click', function() {
-            if (!userLocation) {
-                alert("Please turn on location first.");
-                return;
-            }
-
-            const query = document.getElementById('search-box').value;
-            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&lat=${userLocation[0]}&lon=${userLocation[1]}&zoom=13&addressdetails=1`;
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    // Clear existing markers
-                    markers.forEach(marker => map.removeLayer(marker));
-                    markers.length = 0;
-
-                    // Clear existing places list
-                    const placesList = document.getElementById('places');
-                    placesList.innerHTML = '';
-
-                    // Add markers for each result
-                    data.forEach(place => {
-                        const marker = L.marker([place.lat, place.lon]).addTo(map);
-                        marker.bindPopup(`
-                            <strong>${place.display_name}</strong><br>
-                            <small>Category: ${place.type}</small>
-                        `);
-                        markers.push(marker);
-
-                        // Add place to the sidebar list
-                        const li = document.createElement('li');
-                        li.innerHTML = `
-                            <strong>${place.display_name}</strong><br>
-                            <small>Category: ${place.type}</small>
-                        `;
-                        placesList.appendChild(li);
-                    });
-
-                    // Center the map on the first result
-                    if (data.length > 0) {
-                        map.setView([data[0].lat, data[0].lon], 13);
-                    }
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        });
-
-        // Apply filters
-        document.getElementById('apply-filters').addEventListener('click', function() {
-            const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
-            const evCharging = document.getElementById('ev-charging').checked;
-            const emergencyServices = document.getElementById('emergency-services').checked;
-
-            alert(`Filters applied:\nFuel Type: ${fuelType || 'None'}\nEV Charging: ${evCharging}\nEmergency Services: ${emergencyServices}`);
-        });
-    </script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>
