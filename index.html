@@ -24,11 +24,15 @@
         header {
             background: linear-gradient(135deg, #007BFF, #00BFFF);
             color: white;
-            padding: 40px 20px;
-            text-align: center;
+            padding: 20px 20px; /* Reduced padding for a smaller header */
+            text-align: left; /* Align items to the left */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
+            display: flex; /* Use flexbox for layout */
+            align-items: center; /* Vertically center the content */
+            justify-content: space-between; /* Distribute space evenly */
         }
+
         header h1 {
             margin: 0;
             font-size: 2.5rem;
@@ -39,9 +43,11 @@
             font-size: 1.2rem;
         }
         .auth-buttons {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+            /* position: absolute; Remove absolute positioning */
+            /* top: 20px; Remove top positioning */
+            /* right: 20px; Remove right positioning */
+            display: flex; /* Arrange buttons horizontally */
+             align-items: center;  /*Vertically center items*/
         }
         .auth-buttons button {
             background-color: transparent;
@@ -339,6 +345,41 @@
                 display: none;
             }
         }
+
+        /* Style for the search bar in the header */
+        .top-search-bar {
+            display: flex;
+            /* width: 300px; Adjust as needed */
+            margin-left: auto; /* Push it to the right */
+        }
+
+        .top-search-bar input {
+            flex: 1;
+            padding: 8px;  /*Smaller padding*/
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+            font-size: 0.9rem;  /*Smaller font*/
+        }
+
+        .top-search-bar button {
+            padding: 8px 16px;  /*Smaller padding*/
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            font-size: 0.9rem;  /*Smaller font*/
+            transition: background-color 0.3s ease;
+        }
+
+        .top-search-bar button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Hide the original search-bar in the sidebar */
+        .sidebar .search-bar {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -363,17 +404,17 @@
             <button id="signup-btn">Sign Up</button>
             <button id="login-btn">Login</button>
         </div>
-        <h1>Gas Station Finder</h1>
-        <p>Find the nearest gas station with less waiting time and great service!</p>
-        <button id="find-now">Find Gas Stations Now</button>
+
+        <!-- Moved Search Bar Here -->
+         <div class="search-bar top-search-bar">
+            <input type="text" id="search-box" placeholder="Enter location or address...">
+            <button id="search-button"><i class="fas fa-search"></i></button>
+        </div>
     </header>
     <div class="container">
         <div id="map"></div>
         <div class="sidebar">
-            <div class="search-bar">
-                <input type="text" id="search-box" placeholder="Enter location or address...">
-                <button id="search-button"><i class="fas fa-search"></i></button>
-            </div>
+
             <button id="locate-me"><i class="fas fa-location-arrow"></i> Turn on Location</button>
             <div class="filters">
                 <h3>Filters</h3>
@@ -610,4 +651,4 @@
         });
     </script>
 </body>
-                                          </html>
+</html>
