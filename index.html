@@ -92,7 +92,7 @@
             color: white;
             text-decoration: none;
             display: block;
-            transition: background-color 0.3s ease;
+            transition: background-color: 0.3s ease;
         }
 
         .slide-menu a:hover {
@@ -133,7 +133,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.9rem;
-            transition: background-color 0.3s ease;
+            transition: background-color: 0.3s ease;
         }
         .auth-buttons button:hover {
             background-color: rgba(255, 255, 255, 0.1);
@@ -166,7 +166,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.9rem;
-            transition: background-color 0.3s ease;
+            transition: background-color: 0.3s ease;
         }
 
         .top-search-bar button:hover {
@@ -213,7 +213,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.3s ease;
+            transition: background-color: 0.3s ease;
         }
 
         #locate-me:hover {
@@ -344,7 +344,7 @@
             border-radius: 5px;
             cursor: pointer;
             margin-bottom: 10px;
-            transition: background-color 0.3s ease;
+            transition: background-color: 0.3s ease;
         }
 
         .modal-content button:hover {
@@ -361,20 +361,29 @@
         }
 
         .close-modal {
-            position: absolute; /* Position absolutely within .modal-content */
-            top: 10px;       /* Distance from the top */
-            right: 10px;     /* Distance from the right */
-            background: none; /* Remove default button background */
-            border: none;    /* Remove default button border */
-            font-size: 1.8rem; /* Larger 'x' */
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.8rem;
             cursor: pointer;
-            color: #555;  /* Slightly darker 'x' color */
-            padding: 0;    /* Remove extra padding */
-            line-height: 1; /* Adjust line-height for better vertical centering */
+            color: #555;
+            padding: 0;
+            line-height: 1;
+            border: none; /* Remove any border */
+
+            /* The Key Fixes: Overriding ALL background properties */
+            background: none;          /* No background image or color */
+            background-color: transparent; /* Explicitly transparent */
+            -webkit-appearance: none;  /* Remove default styling (Safari/Chrome) */
+            -moz-appearance: none;     /* Remove default styling (Firefox) */
+            appearance: none;          /* Standard property to remove defaults */
         }
 
         .close-modal:hover {
-            color: #000; /* Darker on hover */
+            color: #000;
+        }
+        .close-modal:focus {  /* Remove the focus outline */
+            outline: none;
         }
 
         /* --- Media Queries --- */
@@ -749,4 +758,4 @@
         });
     </script>
 </body>
-	</html>
+</html>
