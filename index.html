@@ -28,7 +28,7 @@
             padding: 10px 20px;
             text-align: left;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative; /* Important for absolute positioning of child elements */
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -199,21 +199,29 @@
             display: none;
         }
 
-        #locate-me {
+         #locate-me {
             width: 100%;
-            padding: 10px;
+            padding: 5px 10px; /* Reduced padding */
             background-color: #28a745;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             margin-bottom: 20px;
-            font-size: 1rem;
+            font-size: 0.9rem; /* Reduced font size */
+            width: auto; /*Adjust the width to fit the content*/
+            display: flex; /*Use Flex Box*/
+            align-items: center;  /* Vertically center the icon and text */
+            justify-content: center;  /*Center the content*/
             transition: background-color 0.3s ease;
         }
 
         #locate-me:hover {
             background-color: #218838;
+        }
+
+        #locate-me i {
+            margin-right: 5px; /* Add some spacing between the icon and the text */
         }
 
         .filters {
@@ -436,7 +444,7 @@
     <div class="container">
         <div id="map"></div>
         <div class="sidebar">
-            <button id="locate-me"><i class="fas fa-location-arrow"></i> Turn on Location</button>
+            <button id="locate-me"><i class="fas fa-map-marker-alt"></i> Location</button>
             <div class="filters">
                 <h3>Filters</h3>
                 <div class="fuel-options">
@@ -672,4 +680,4 @@
         });
     </script>
 </body>
-                </html>
+    </html>
