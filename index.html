@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gas Station Finder</title>
+    <title>Fuel Finder</title>
     <!-- Include Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <!-- Include Font Awesome for icons -->
@@ -106,202 +106,15 @@
             .hamburger {
                 display: block;
             }
-            .auth-buttons {
-                display: none;
-            }
         }
 
-        .container {
-            display: flex;
-            flex: 1;
-            flex-direction: column;
-        }
         #map {
-            flex: 2;
-            height: 50vh;
-            animation: fadeIn 1s ease-in-out;
-            z-index: 1; /* Ensure map is below modals */
-        }
-        .sidebar {
-            flex: 1;
-            padding: 20px;
-            background-color: white;
-            overflow-y: auto;
-            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-        }
-        .search-bar {
-            display: flex;
-            margin-bottom: 20px;
-        }
-        .search-bar input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px 0 0 5px;
-            font-size: 1rem;
-        }
-        .search-bar button {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-        .search-bar button:hover {
-            background-color: #0056b3;
-        }
-        #locate-me {
+            height: 70vh;
             width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
         }
-        #locate-me:hover {
-            background-color: #218838;
-        }
-        .filters {
-            margin-bottom: 20px;
-        }
-        .filters h3 {
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        .filters label {
-            display: block;
-            margin: 5px 0;
-            font-size: 0.9rem;
-        }
-        .filters label i {
-            margin-right: 5px;
-        }
-        .fuel-options {
-            margin-bottom: 10px;
-        }
-        .fuel-options label {
-            margin-right: 10px;
-        }
-        .station-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-            list-style-type: none;
-            padding: 0;
-        }
-        .station-list li {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-        }
-        .station-list li strong {
-            display: block;
-            font-size: 1.1rem;
-        }
-        .station-list li small {
-            display: block;
-            color: #666;
-        }
-        footer {
-            background-color: #333;
-            color: white;
+        .info {
+            padding: 20px;
             text-align: center;
-            padding: 20px;
-        }
-        footer p {
-            margin: 0;
-        }
-        footer a {
-            color: white;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-        footer a:hover {
-            color: #007BFF;
-        }
-
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000; /* Ensure modals are above everything */
-        }
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 300px;
-            text-align: center;
-            position: relative;
-        }
-        .modal-content h2 {
-            margin-bottom: 20px;
-        }
-        .modal-content input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .modal-content button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-        .modal-content button:hover {
-            background-color: #0056b3;
-        }
-        .modal-content a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-        .modal-content a:hover {
-            text-decoration: underline;
-        }
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* Mobile-friendly adjustments */
-        @media (min-width: 768px) {
-            .container {
-                flex-direction: row;
-            }
-            #map {
-                height: calc(100vh - 120px);
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
     </style>
 </head>
@@ -326,34 +139,50 @@
             <button id="signup-btn">Sign Up</button>
             <button id="login-btn">Login</button>
         </div>
-        <h1>Gas Station Finder</h1>
+        <h1>Fuel Finder</h1>
         <p>Find the nearest gas station with less waiting time and great service!</p>
         <button id="find-now">Find Gas Stations Now</button>
     </header>
-    <div class="container">
-        <div id="map"></div>
-        <div class="sidebar">
-            <div class="search-bar">
-                <input type="text" id="search-box" placeholder="Enter location or address...">
-                <button id="search-button"><i class="fas fa-search"></i></button>
-            </div>
-            <button id="locate-me"><i class="fas fa-location-arrow"></i> Turn on Location</button>
-            <div class="filters">
-                <h3>Filters</h3>
-                <div class="fuel-options">
-                    <label><input type="radio" name="fuel-type" value="petrol"> <i class="fas fa-gas-pump"></i> Petrol</label>
-                    <label><input type="radio" name="fuel-type" value="diesel"> <i class="fas fa-gas-pump"></i> Diesel</label>
-                </div>
-                <label><i class="fas fa-plug"></i><input type="checkbox" id="ev-charging"> EV Charging</label>
-                <label><i class="fas fa-ambulance"></i><input type="checkbox" id="emergency-services"> Emergency Services</label>
-                <button id="apply-filters">Apply Filters</button>
-            </div>
-            <div class="station-list">
-                <h3>Nearby Places</h3>
-                <ul id="places">
-                    <!-- Nearby places will be added here dynamically -->
-                </ul>
-            </div>
-        </div>
+
+    <div id="map"></div>
+    <div class="info">
+        <h2>Find Nearby Gas Stations</h2>
+        <p>Locate gas stations near you with minimal wait times and the best service.</p>
     </div>
-    <
+
+    <!-- Include Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([0, 0], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Get user location
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var userLat = position.coords.latitude;
+                var userLng = position.coords.longitude;
+                map.setView([userLat, userLng], 14);
+
+                L.marker([userLat, userLng]).addTo(map)
+                    .bindPopup("You are here")
+                    .openPopup();
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+
+        // Hamburger Menu Toggle
+        document.getElementById("menu-toggle").addEventListener("click", function() {
+            var menu = document.getElementById("mobile-menu");
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>
