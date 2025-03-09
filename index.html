@@ -596,6 +596,18 @@
                 alert('Please fill in all fields.');
             }
         });
+
+        // JavaScript to close the menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menuToggle = document.getElementById('menu-toggle');
+            const slideMenu = document.querySelector('.slide-menu');
+            const hamburgerMenu = document.querySelector('.hamburger-menu'); // Add this line
+
+            // Check if the menu is open and the click is outside the menu and the hamburger button
+            if (menuToggle.checked && !slideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) { // Modified condition
+                menuToggle.checked = false; // Uncheck the checkbox to close the menu
+            }
+        });
     </script>
 </body>
-            </html>
+                                          </html>
