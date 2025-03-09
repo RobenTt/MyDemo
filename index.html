@@ -21,247 +21,24 @@
             background-color: #f4f4f4;
             color: #333;
         }
+
         header {
             background: linear-gradient(135deg, #007BFF, #00BFFF);
             color: white;
-            padding: 20px 20px; /* Reduced padding for a smaller header */
-            text-align: left; /* Align items to the left */
+            padding: 10px; /* Reduced padding further */
+            text-align: left;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
-            display: flex; /* Use flexbox for layout */
-            align-items: center; /* Vertically center the content */
-            justify-content: space-between; /* Distribute space evenly */
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 600;
-        }
-        header p {
-            margin: 10px 0 0;
-            font-size: 1.2rem;
-        }
-        .auth-buttons {
-            /* position: absolute; Remove absolute positioning */
-            /* top: 20px; Remove top positioning */
-            /* right: 20px; Remove right positioning */
-            display: flex; /* Arrange buttons horizontally */
-             align-items: center;  /*Vertically center items*/
-        }
-        .auth-buttons button {
-            background-color: transparent;
-            border: 1px solid white;
-            color: white;
-            padding: 8px 16px;
-            margin-left: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background-color 0.3s ease;
-        }
-        .auth-buttons button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        .container {
             display: flex;
-            flex: 1;
-            flex-direction: column;
-        }
-        #map {
-            flex: 2;
-            height: 50vh;
-            animation: fadeIn 1s ease-in-out;
-            z-index: 1; /* Ensure map is below modals */
-        }
-        .sidebar {
-            flex: 1;
-            padding: 20px;
-            background-color: white;
-            overflow-y: auto;
-            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-        }
-        .search-bar {
-            display: flex;
-            margin-bottom: 20px;
-        }
-        .search-bar input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px 0 0 5px;
-            font-size: 1rem;
-        }
-        .search-bar button {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-        .search-bar button:hover {
-            background-color: #0056b3;
-        }
-        #locate-me {
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-        #locate-me:hover {
-            background-color: #218838;
-        }
-        .filters {
-            margin-bottom: 20px;
-        }
-        .filters h3 {
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        .filters label {
-            display: block;
-            margin: 5px 0;
-            font-size: 0.9rem;
-        }
-        .filters label i {
-            margin-right: 5px;
-        }
-        .fuel-options {
-            margin-bottom: 10px;
-        }
-        .fuel-options label {
-            margin-right: 10px;
-        }
-        .station-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-            list-style-type: none;
-            padding: 0;
-        }
-        .station-list li {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-        }
-        .station-list li strong {
-            display: block;
-            font-size: 1.1rem;
-        }
-        .station-list li small {
-            display: block;
-            color: #666;
-        }
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-        footer p {
-            margin: 0;
-        }
-        footer a {
-            color: white;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-        footer a:hover {
-            color: #007BFF;
-        }
-
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
             align-items: center;
-            z-index: 1000; /* Ensure modals are above everything */
-        }
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 300px;
-            text-align: center;
-            position: relative;
-        }
-        .modal-content h2 {
-            margin-bottom: 20px;
-        }
-        .modal-content input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .modal-content button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-        .modal-content button:hover {
-            background-color: #0056b3;
-        }
-        .modal-content a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-        .modal-content a:hover {
-            text-decoration: underline;
-        }
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
+            justify-content: space-between;
+            flex-wrap: wrap; /* Allow items to wrap to the next line on smaller screens */
         }
 
-        /* Mobile-friendly adjustments */
-        @media (min-width: 768px) {
-            .container {
-                flex-direction: row;
-            }
-            #map {
-                height: calc(100vh - 120px);
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Hamburger Menu Styles */
         .hamburger-menu {
-            position: absolute; /* Or fixed, depending on your preference */
-            top: 20px;
-            left: 20px;
-            z-index: 1001; /* Ensure it's above other elements */
+            position: relative; /* Changed to relative for better flow */
+            margin-left: 10px; /* Add some spacing */
+            order: 1; /* Ensure it stays on the left */
         }
 
         .menu-icon {
@@ -269,7 +46,7 @@
             width: 30px;
             height: 30px;
             cursor: pointer;
-            padding: 5px; /* Add some padding around the icon */
+            padding: 5px;
         }
 
         .line {
@@ -280,24 +57,22 @@
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        /* Hide the checkbox */
         #menu-toggle {
             display: none;
         }
 
-        /* Style the slide-in menu */
         .slide-menu {
             position: fixed;
             top: 0;
-            left: -250px; /* Initially hidden off-screen */
+            left: -250px;
             width: 250px;
             height: 100%;
-            background-color: #333; /* Or any color you prefer */
-            padding-top: 60px; /* Add some space below the hamburger */
+            background-color: #333;
+            padding-top: 60px;
             transition: left 0.3s ease;
             z-index: 1000;
-            overflow-y: auto; /* For long menus */
-            color: white; /* Text color for the menu */
+            overflow-y: auto;
+            color: white;
         }
 
         .slide-menu ul {
@@ -308,7 +83,7 @@
 
         .slide-menu li {
             padding: 15px 20px;
-            border-bottom: 1px solid #444; /* Separator lines */
+            border-bottom: 1px solid #444;
         }
 
         .slide-menu a {
@@ -322,9 +97,8 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
 
-        /* JavaScript-controlled styles */
         #menu-toggle:checked ~ .slide-menu {
-            left: 0; /* Slide the menu in */
+            left: 0;
         }
 
         #menu-toggle:checked ~ .menu-icon .line:nth-child(1) {
@@ -339,36 +113,54 @@
             transform: translateY(-8px) rotate(-45deg);
         }
 
-        /* Media query to hide the hamburger menu on larger screens */
-        @media (min-width: 768px) {
-            .hamburger-menu {
-                display: none;
-            }
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            order: 2; /* Place after the hamburger menu */
+            margin-right: 10px; /* Add spacing */
         }
 
-        /* Style for the search bar in the header */
+        .auth-buttons button {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 8px 16px;
+            margin-left: 5px; /* Reduced spacing between buttons */
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .auth-buttons button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
         .top-search-bar {
             display: flex;
-            /* width: 300px; Adjust as needed */
-            margin-left: auto; /* Push it to the right */
+            align-items: center;
+            order: 3; /* Place after the auth buttons */
+            flex: 1; /* Take up remaining space */
+            max-width: 300px; /* Set a maximum width */
+            margin: 5px 10px; /* Add vertical and horizontal spacing */
         }
 
         .top-search-bar input {
             flex: 1;
-            padding: 8px;  /*Smaller padding*/
+            padding: 8px;
             border: 1px solid #ccc;
             border-radius: 5px 0 0 5px;
-            font-size: 0.9rem;  /*Smaller font*/
+            font-size: 0.9rem;
         }
 
         .top-search-bar button {
-            padding: 8px 16px;  /*Smaller padding*/
+            padding: 8px 16px;
             background-color: #007BFF;
             color: white;
             border: none;
             border-radius: 0 5px 5px 0;
             cursor: pointer;
-            font-size: 0.9rem;  /*Smaller font*/
+            font-size: 0.9rem;
             transition: background-color 0.3s ease;
         }
 
@@ -376,10 +168,236 @@
             background-color: #0056b3;
         }
 
+        .container {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+        }
+
+        #map {
+            flex: 2;
+            height: 50vh;
+            animation: fadeIn 1s ease-in-out;
+            z-index: 1;
+        }
+
+        .sidebar {
+            flex: 1;
+            padding: 20px;
+            background-color: white;
+            overflow-y: auto;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
         /* Hide the original search-bar in the sidebar */
         .sidebar .search-bar {
             display: none;
         }
+
+        #locate-me {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        #locate-me:hover {
+            background-color: #218838;
+        }
+
+        .filters {
+            margin-bottom: 20px;
+        }
+
+        .filters h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .filters label {
+            display: block;
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .filters label i {
+            margin-right: 5px;
+        }
+
+        .fuel-options {
+            margin-bottom: 10px;
+        }
+
+        .fuel-options label {
+            margin-right: 10px;
+        }
+
+        .station-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .station-list li {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+
+        .station-list li strong {
+            display: block;
+            font-size: 1.1rem;
+        }
+
+        .station-list li small {
+            display: block;
+            color: #666;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        footer a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #007BFF;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .modal-content button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .modal-content button:hover {
+            background-color: #0056b3;
+        }
+
+        .modal-content a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .modal-content a:hover {
+            text-decoration: underline;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
+
+            #map {
+                height: calc(100vh - 120px);
+            }
+
+            .hamburger-menu {
+                display: none;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* MEDIA QUERY FOR SMALLER SCREENS */
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column; /* Stack items vertically */
+                align-items: stretch; /* Stretch items to full width */
+            }
+
+            .auth-buttons {
+                margin: 5px auto; /* Center buttons horizontally */
+                order: 1; /* Ensure buttons are on top */
+            }
+
+            .top-search-bar {
+                order: 3; /* Ensure the search bar is at the bottom */
+                max-width: 100%; /* Take full width */
+                margin: 5px 0; /* Adjust margins as needed */
+            }
+
+            .top-search-bar input {
+                border-radius: 5px; /* Full border radius on small screens */
+            }
+
+            .top-search-bar button {
+                border-radius: 5px; /* Full border radius on small screens */
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -404,9 +422,7 @@
             <button id="signup-btn">Sign Up</button>
             <button id="login-btn">Login</button>
         </div>
-
-        <!-- Moved Search Bar Here -->
-         <div class="search-bar top-search-bar">
+        <div class="search-bar top-search-bar">
             <input type="text" id="search-box" placeholder="Enter location or address...">
             <button id="search-button"><i class="fas fa-search"></i></button>
         </div>
@@ -414,7 +430,6 @@
     <div class="container">
         <div id="map"></div>
         <div class="sidebar">
-
             <button id="locate-me"><i class="fas fa-location-arrow"></i> Turn on Location</button>
             <div class="filters">
                 <h3>Filters</h3>
