@@ -10,11 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Include Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <!-- Include Leaflet MarkerCluster CSS (Optional, for clustering) -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
     <style>
-       body {
+        body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
@@ -31,21 +28,21 @@
             padding: 10px 20px;
             text-align: left;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
+            position: relative; /* Important for absolute positioning of children */
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            justify-content: space-between; /* Distributes space */
+            flex-wrap: wrap; /* Allows wrapping on smaller screens */
             min-height: 50px;
         }
 
         .hamburger-menu {
-            position: relative;
+            position: relative; /*  For the slide-out menu */
             margin-left: 10px;
-            order: 1;
+            order: 1;  /* Hamburger first on small screens */
         }
 
-        .menu-icon {
+        .menu-icon { /* Style for the hamburger icon itself */
             display: block;
             width: 30px;
             height: 30px;
@@ -53,7 +50,7 @@
             padding: 5px;
         }
 
-        .line {
+        .line { /* Style for each line of the hamburger */
             width: 100%;
             height: 3px;
             background-color: white;
@@ -61,11 +58,12 @@
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        #menu-toggle {
+        #menu-toggle { /* Hide the checkbox */
             display: none;
         }
 
-        .slide-menu {
+        /*  (slide-menu styles remain the same)  */
+         .slide-menu {
             position: fixed;
             top: 0;
             left: -250px;
@@ -118,12 +116,12 @@
         }
 
         .auth-buttons {
-            position: absolute;
+            position: absolute; /* Absolute positioning within the header */
             top: 10px;
             right: 20px;
             display: flex;
             align-items: center;
-            z-index: 3;
+            z-index: 3; /* Ensure it's above other elements */
         }
 
         .auth-buttons button {
@@ -131,30 +129,31 @@
             border: 1px solid white;
             color: white;
             padding: 8px 16px;
-            margin-left: 5px;
+            margin-left: 5px; /* Space between buttons */
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.9rem;
             transition: background-color 0.3s ease;
         }
-
         .auth-buttons button:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
-
+        /*NEW*/
         .top-search-bar {
             display: flex;
             align-items: center;
-            order: 3;
-            flex: 1;
-            max-width: 60%;
+            order: 3;        /* Search bar *after* auth buttons */
+            flex: 1;          /* Allow it to grow */
+            max-width: 60%;   /* Limit width on larger screens */
             margin-left: 10px;
-            margin-right: 160px;
+            margin-right: 160px; /* Space for auth buttons on larger screens */
             z-index: 1;
         }
 
+
+
         .top-search-bar input {
-            flex: 1;
+            flex: 1; /* Input field takes up available space */
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -182,16 +181,16 @@
             flex-direction: column;
         }
 
-        #home-section {
+      #home-section{ /*NEW SECTION*/
             display: flex;
             flex-direction: column;
-        }
+      }
 
         #map {
             flex: 2;
             height: 50vh;
             animation: fadeIn 1s ease-in-out;
-            z-index: 1;
+            z-index: 1; /* Ensure map is below sidebar */
         }
 
         .sidebar {
@@ -200,14 +199,14 @@
             background-color: white;
             overflow-y: auto;
             box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-            z-index: 2;
+            z-index: 2; /* Set a higher z-index */
         }
 
         .sidebar .search-bar {
             display: none;
         }
 
-        #locate-me {
+         #locate-me {
             width: 100%;
             padding: 5px 10px;
             background-color: #28a745;
@@ -272,11 +271,6 @@
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 10px;
-            transition: background-color 0.3s ease;
-        }
-
-        .station-list li:hover {
-            background-color: #f0f0f0;
         }
 
         .station-list li strong {
@@ -287,6 +281,27 @@
         .station-list li small {
             display: block;
             color: #666;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        footer a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #007BFF;
         }
 
         .modal {
@@ -307,9 +322,7 @@
             padding: 20px;
             border-radius: 10px;
             width: 300px;
-            max-width: 80%;
-            max-height: 80vh;
-            overflow-y: auto;
+           /* max-width: 80%; /* Add this */
             text-align: center;
             position: relative;
         }
@@ -360,90 +373,58 @@
             cursor: pointer;
         }
 
-        /* Media Queries */
+        /* --- Media Queries --- */
+
+        /* Larger screens (768px and up) */
         @media (min-width: 768px) {
             .container {
                 flex-direction: row;
             }
 
             #map {
-                height: calc(100vh - 70px);
+                height: calc(100vh - 70px);  /* Adjust as needed */
             }
 
             .hamburger-menu {
-                display: none;
+                display: none; /* Hide hamburger on larger screens */
             }
-
+          /*NEW*/
             .auth-buttons {
-                top: 10px;
-                right: 20px;
+              top: 10px;
+              right:20px;
+            }
+            .top-search-bar{
+              margin-right: 160px;
+              max-width: 60%;
             }
 
-            .top-search-bar {
-                margin-right: 160px;
-                max-width: 60%;
-            }
         }
 
+        /* Smaller screens (up to 600px) - Mobile adjustments */
         @media (max-width: 600px) {
             header {
                 flex-direction: column;
-                align-items: stretch;
+                align-items: stretch; /* Stretch items to full width */
             }
-
+          /*NEW*/
             .auth-buttons {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                order: 2;
+              position: absolute;
+              top:10px;
+              right: 10px;
+              order: 2;
             }
-
             .top-search-bar {
-                order: 3;
-                max-width: 95%;
-                margin: 10px auto;
-                margin-right: 0px;
+                order: 3;        /* Search bar *after* auth buttons */
+                max-width: 95%;  /* Allow it to take almost full width */
+                margin: 10px auto;  /* Center the search bar */
+                margin-right: 0px; /*Reset margin*/
                 margin-left: 10px;
             }
+
         }
 
         html {
-            scroll-behavior: smooth;
-        }
-
-        /* Loading Spinner Styles */
-        #loading-spinner {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 999;
-            display: none;
-        }
-
-        #loading-spinner i {
-            font-size: 2em;
-            color: #007bff;
-        }
-
-        /* About Us Section Styles */
-        #about-section {
-            padding: 20px;
-            background-color: #eee;
-            display: none; /* Initially hidden */
-            /*text-align: center;  Removed to allow left-alignment */
-        }
-
-        #about-section h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #007bff; /* Use your primary color */
-        }
-
-        #about-section p {
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
+          scroll-behavior: smooth;
         }
     </style>
 </head>
@@ -459,8 +440,9 @@
             <nav class="slide-menu">
                 <ul>
                     <li><a href="#home-section" onclick="closeMenu()">Home</a></li>
-                    <li><a href="#about-section" onclick="closeMenu()">About Us</a></li>
-                    <li><a href="#contact-section" onclick="closeMenu()">Contact</a></li>
+                    <li><a href="#find-gas-section" onclick="closeMenu()">Find Gas</a></li>
+                    <li><a href="#about-section" onclick="closeMenu()">About Us</a></li>  <!-- Back in the menu -->
+                    <li><a href="#contact-section" onclick="closeMenu()">Contact</a></li> <!-- Back in the menu -->
                 </ul>
             </nav>
         </div>
@@ -473,47 +455,40 @@
         <div class="search-bar top-search-bar">
             <input type="text" id="search-box" placeholder="Enter location or address...">
             <button id="search-button"><i class="fas fa-search"></i></button>
-            <button id="clear-search-button" style="display: none;"><i class="fas fa-times"></i></button>
         </div>
+
     </header>
-
-    <div id="home-section">
-        <div class="container">
-            <div id="map"></div>
-            <!-- Loading Spinner -->
-            <div id="loading-spinner">
-                <i class="fas fa-spinner fa-spin"></i>
+  <div id = "home-section">
+    <div class="container">
+        <div id="map"></div>
+        <div class="sidebar">
+            <button id="locate-me"><i class="fas fa-map-marker-alt"></i> Location</button>
+            <div class="filters">
+                <h3>Filters</h3>
+                <div class="fuel-options">
+                    <label><input type="radio" name="fuel-type" value="petrol"> <i class="fas fa-gas-pump"></i> Petrol</label>
+                    <label><input type="radio" name="fuel-type" value="diesel"> <i class="fas fa-gas-pump"></i> Diesel</label>
+                </div>
+                <label><i class="fas fa-plug"></i><input type="checkbox" id="ev-charging"> EV Charging</label>
+                <label><i class="fas fa-ambulance"></i><input type="checkbox" id="emergency-services"> Emergency Services</label>
+                <button id="apply-filters">Apply Filters</button>
             </div>
-            <div class="sidebar">
-                <button id="locate-me"><i class="fas fa-map-marker-alt"></i> Locate Me</button>
-                <div class="filters">
-                    <h3>Filters</h3>
-                    <div class="fuel-options">
-                        <label><input type="radio" name="fuel-type" value="petrol"> <i class="fas fa-gas-pump"></i> Petrol</label>
-                        <label><input type="radio" name="fuel-type" value="diesel"> <i class="fas fa-gas-pump"></i> Diesel</label>
-                    </div>
-                    <label><i class="fas fa-plug"></i><input type="checkbox" id="ev-charging"> EV Charging</label>
-                    <label><i class="fas fa-ambulance"></i><input type="checkbox" id="emergency-services"> Emergency Services</label>
-                    <button id="apply-filters">Apply Filters</button>
-                </div>
-                <div class="station-list">
-                    <h3>Nearby Places</h3>
-                    <ul id="places">
-                        <!-- Nearby places will be added dynamically -->
-                    </ul>
-                </div>
+            <div class="station-list">
+                <h3>Nearby Places</h3>
+                <ul id="places">
+                    <!-- Nearby places will be added here dynamically -->
+                </ul>
             </div>
         </div>
     </div>
-
-   <div id="about-section" style="padding: 20px; background-color: #eee; display: none;">
-        <h2>About Us – Nedaj Ale</h2>
-        <p>At Nedaj Ale, we are committed to making fuel access smarter, faster, and more efficient. Our mission is to minimize fuel wastage by helping drivers locate nearby gas stations with minimal wait times, saving both time and resources.</p>
-        <p>By reducing congestion caused by long queues, we contribute to smoother traffic flow and a more organized city. With Nedaj Ale, finding fuel is no longer a hassle—it’s a seamless experience that keeps you on the road with ease.</p>
-        <p>Join us in driving towards a smarter, more efficient future!</p>
+  </div>
+    <!-- About Us Section (Hidden by default) -->
+    <div id="about-section" style="padding: 20px; background-color: #eee; display: none;">
+        <h2>About Us</h2>
+        <p>This is the about us section content.</p>
     </div>
 
-    <!-- Contact Section -->
+    <!-- Contact Section (Hidden by default) -->
     <div id="contact-section" style="padding: 20px; background-color: #ddd; display: none;">
         <h2>Contact</h2>
         <p>Contact form and information here.</p>
@@ -524,9 +499,9 @@
         <div class="modal-content">
             <button class="close-modal" id="close-signup">×</button>
             <h2>Sign Up</h2>
-            <input type="text" id="signup-username" placeholder="Username" required>
-            <input type="email" id="signup-email" placeholder="Email" required>
-            <input type="password" id="signup-password" placeholder="Password" required>
+            <input type="text" id="signup-username" placeholder="Username">
+            <input type="email" id="signup-email" placeholder="Email">
+            <input type="password" id="signup-password" placeholder="Password">
             <button id="signup-submit">Sign Up</button>
             <p>Already have an account? <a href="#" id="login-link">Login</a></p>
         </div>
@@ -537,8 +512,8 @@
         <div class="modal-content">
             <button class="close-modal" id="close-login">×</button>
             <h2>Login</h2>
-            <input type="text" id="login-username" placeholder="Username" required>
-            <input type="password" id="login-password" placeholder="Password" required>
+            <input type="text" id="login-username" placeholder="Username">
+            <input type="password" id="login-password" placeholder="Password">
             <button id="login-submit">Login</button>
             <p>Don't have an account? <a href="#" id="signup-link">Sign Up</a></p>
         </div>
@@ -546,211 +521,193 @@
 
     <!-- Include Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <!-- Include Leaflet MarkerCluster JS -->
-    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-
     <script>
-        // --- Map Initialization ---
-        const map = L.map('map').setView([0, 0], 13);
-        const markers = L.markerClusterGroup(); // Create a MarkerClusterGroup
-        map.addLayer(markers);  // Add the cluster group to the map
-
+      // Initialize the map
+        const map = L.map('map').setView([0, 0], 13); // Default center
+        const markers = [];
+        // Add OpenStreetMap tiles (default view)
         const osmTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         });
+
+        // Add Esri World Imagery tiles (satellite view)
         const esriTiles = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
             attribution: '© Esri'
         });
+
+        // Add default tiles (OpenStreetMap)
         osmTiles.addTo(map);
 
-        L.control.layers({
+        // Layer control for switching between map views
+        const baseLayers = {
             "Street View": osmTiles,
-            "Satellite View": esriTiles
-        }).addTo(map);
+            "Satellite View": esriTiles,
+        };
+        L.control.layers(baseLayers).addTo(map);
 
 
-        // --- Geolocation ---
+        //Improved Function
         let userLocation;
 
-        function getUserLocation() {
-            return new Promise((resolve, reject) => {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        (position) => {
-                            userLocation = [position.coords.latitude, position.coords.longitude];
-                            resolve(userLocation);
-                        },
-                        (error) => {
-                            let errorMessage = "Could not get your location. ";
-                            switch (error.code) {
-                                case error.PERMISSION_DENIED:
-                                    errorMessage += "User denied the request for Geolocation.";
-                                    break;
-                                case error.POSITION_UNAVAILABLE:
-                                    errorMessage += "Location information is unavailable.";
-                                    break;
-                                case error.TIMEOUT:
-                                    errorMessage += "The request to get user location timed out.";
-                                    break;
-                                default:
-                                    errorMessage += "An unknown error occurred.";
-                                    break;
-                            }
-                            reject(new Error(errorMessage));
-                        }
-                    );
-                } else {
-                    reject(new Error("Geolocation is not supported by this browser."));
-                }
-            });
-        }
-
-
-        // --- Search Function ---
-        function searchNearbyPlaces(query, fuelType, evCharging, emergencyServices) {
-            const locationToUse = userLocation || [40.7128, -74.0060];
-            let baseUrl = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1`;
-            let url = baseUrl;
-            let queryParams = [];
-
-            if (query) {
-                queryParams.push(`q=${encodeURIComponent(query)}`);
-            }
-
-            queryParams.push(`lat=${locationToUse[0]}`);
-            queryParams.push(`lon=${locationToUse[1]}`);
-            queryParams.push('zoom=13');
-
-            let amenity = "";
-            if (fuelType || evCharging || emergencyServices) {
-                if (fuelType == 'petrol' || fuelType == 'diesel') amenity += "fuel,";
-                if (evCharging) amenity += "charging_station,";
-                if (emergencyServices) amenity += "fire_station,police,";
-                amenity = amenity.slice(0, -1); // Remove trailing comma
-                queryParams.push(`amenity=${amenity}`);
-            }
-
-            if (queryParams.length > 0) {
-                url += '&' + queryParams.join('&');
-            }
-
-            const placesList = document.getElementById('places');
-            placesList.innerHTML = '';
-            document.getElementById('loading-spinner').style.display = 'block';
-
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Network response was not ok: ${response.status} - ${response.statusText}`);
+    function getUserLocation() {
+        return new Promise((resolve, reject) => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLocation = [position.coords.latitude, position.coords.longitude];
+                        resolve(userLocation);
+                    },
+                    (error) => {
+                        reject(error); // Reject the promise on error
                     }
-                    return response.json();
-                })
-                .then(data => {
-                    document.getElementById('loading-spinner').style.display = 'none';
-                    markers.clearLayers();
-
-                    data.forEach(place => {
-                        const marker = L.marker([place.lat, place.lon]);
-                        marker.bindPopup(`<strong>${place.display_name}</strong><br><small>Category: ${place.type}</small>`);
-                        markers.addLayer(marker);
-
-                        const li = document.createElement('li');
-                        li.innerHTML = `<strong>${place.display_name}</strong><br><small>Category: ${place.type}</small>`;
-                        li.addEventListener('click', () => {
-                            map.setView([place.lat, place.lon], 15);
-                            marker.openPopup();
-                        });
-                        placesList.appendChild(li);
-                    });
-
-                    if (data.length > 0) {
-                        map.setView([data[0].lat, data[0].lon], 13);
-                    } else {
-                        map.setView(locationToUse, 13);
-                        if (query) alert("No results found for your query.");
-                    }
-                })
-                .catch(error => {
-                    document.getElementById('loading-spinner').style.display = 'none';
-                    console.error('Error fetching data:', error);
-                    let errorMessage = "An error occurred while searching. Please try again.";
-                    if (error.message.startsWith("Network response was not ok")) {
-                        errorMessage = "There was a problem connecting to the server. Please check your internet connection.";
-                    }
-                    alert(errorMessage);
-                });
-        }
-
-
-        // --- Debounced Search ---
-        let searchTimeout;
-        function debouncedSearch(query, fuelType, evCharging, emergencyServices) {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                searchNearbyPlaces(query, fuelType, evCharging, emergencyServices);
-            }, 300);
-        }
-
-
-        // --- Event Listeners ---
-
-        // Initial Location and Map Setup
-        getUserLocation()
-            .then(location => {
-                map.setView(location, 13);
-                L.marker(location).addTo(map).bindPopup("Your Location").openPopup();
-            })
-            .catch(error => {
-                console.error("Could not get user location:", error);
-                alert(error.message);
-                map.setView([40.7128, -74.0060], 10);  // Default to NYC
-            });
-
-        // Locate Me Button
-        document.getElementById('locate-me').addEventListener('click', () => {
-            getUserLocation()
-            .then(location => {
-                map.setView(location, 13);
-                L.marker(location).addTo(map).bindPopup("Your Location").openPopup();
-            })
-            .catch(error => {
-                console.error("Could not get user location:", error);
-                alert(error.message); // Use the specific error message from the promise rejection
-            });
-        });
-
-        // Search Input
-        document.getElementById('search-box').addEventListener('input', function() {
-            const query = this.value;
-            const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
-            const evCharging = document.getElementById('ev-charging').checked;
-            const emergencyServices = document.getElementById('emergency-services').checked;
-            if (query) {
-                document.getElementById('clear-search-button').style.display = 'inline-block';
+                );
             } else {
-                document.getElementById('clear-search-button').style.display = 'none';
+                reject(new Error("Geolocation is not supported by this browser.")); // Reject if not supported
             }
-            debouncedSearch(query, fuelType, evCharging, emergencyServices);
         });
+    }
 
-        // Clear Search Button
-        document.getElementById('clear-search-button').addEventListener('click', () => {
-            document.getElementById('search-box').value = '';
-            document.getElementById('clear-search-button').style.display = 'none';
-            markers.clearLayers();
-            document.getElementById('places').innerHTML = '';
-        });
 
-        // Apply Filters Button
-        document.getElementById('apply-filters').addEventListener('click', () => {
-            const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
-            const evCharging = document.getElementById('ev-charging').checked;
-            const emergencyServices = document.getElementById('emergency-services').checked;
-            const query = document.getElementById('search-box').value; // Get current query
+    function searchNearbyPlaces(query, fuelType, evCharging, emergencyServices) {
+        const locationToUse = userLocation || [40.7128, -74.0060]; //Default location
+        let baseUrl = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1`;
+
+        let url = baseUrl;
+        let queryParams = [];
+
+        // Add location if provided
+        if (query) {
+            queryParams.push(`q=${encodeURIComponent(query)}`);
+        }
+
+        queryParams.push(`lat=${locationToUse[0]}`);
+        queryParams.push(`lon=${locationToUse[1]}`);
+        queryParams.push('zoom=13');
+
+        // Add amenity filter if any options are selected
+    	let amenity = "";
+    	if (fuelType || evCharging || emergencyServices) {
+        if (fuelType == 'petrol' || fuelType == 'diesel') amenity = amenity + "fuel,";
+        if (evCharging) amenity = amenity + "charging_station,";
+        if (emergencyServices) amenity = amenity + "fire_station,police,";
+        amenity = amenity.slice(0, -1);
+        queryParams.push(`amenity=${amenity}`);
+    	}
+
+        // Combine query parameters
+        if (queryParams.length > 0) {
+            url += '&' + queryParams.join('&');
+        }
+       // Rest of your fetch code remains the same...
+       fetch(url)
+    	.then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Clear existing markers
+                markers.forEach(marker => map.removeLayer(marker));
+                markers.length = 0;
+
+                // Clear existing places list
+                const placesList = document.getElementById('places');
+                placesList.innerHTML = '';
+                // Add markers for each result
+                data.forEach(place => {
+                    const marker = L.marker([place.lat, place.lon]).addTo(map);
+                    marker.bindPopup(`
+                        <strong>${place.display_name}</strong><br>
+                        <small>Category: ${place.type}</small>
+                    `);
+                    markers.push(marker);
+
+                    // Add place to the sidebar list
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <strong>${place.display_name}</strong><br>
+                        <small>Category: ${place.type}</small>
+                    `;
+                    // Add click event listener to list items
+                    li.addEventListener('click', () => {
+                        map.setView([place.lat, place.lon], 15);
+                        marker.openPopup();
+                    });
+                    placesList.appendChild(li);
+                });
+
+                // Center the map on the first result, or the default location if no results
+                if (data.length > 0) {
+                    map.setView([data[0].lat, data[0].lon], 13);
+                } else {
+                    map.setView(locationToUse, 13); // Center on default if no results
+                    //ONLY SHOW IF SEARCHED
+                    if(query) alert("No results found for your query."); // Only show if search
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                alert("An error occurred while searching. Please try again.");
+            });
+
+    }
+
+    let searchTimeout; // Variable to hold the timeout
+
+    function debouncedSearch(query, fuelType, evCharging, emergencyServices) {
+        clearTimeout(searchTimeout); // Clear any previous timeout
+        searchTimeout = setTimeout(() => {
             searchNearbyPlaces(query, fuelType, evCharging, emergencyServices);
+        }, 300); // 300ms delay
+    }
+
+    // Call getUserLocation when the page loads, and handle success/failure
+    getUserLocation()
+        .then(location => {
+            map.setView(location, 13);
+            L.marker(location).addTo(map).bindPopup("Your Location").openPopup();
+        })
+        .catch(error => {
+            console.error("Could not get user location:", error);
+            alert("Could not get your location. Please ensure location services are enabled and try again, or use the search bar.");
+             // Set a default map view if geolocation fails.
+            map.setView([40.7128, -74.0060], 10); // Example: New York City
         });
 
- // --- Modal Event Listeners ---
+    //Locate me functionality
+    document.getElementById('locate-me').addEventListener('click', function() {
+        getUserLocation() //Gets user location
+        .then(location => { //If succeded
+            map.setView(location, 13);
+            L.marker(location).addTo(map).bindPopup("Your Location").openPopup();
+        })
+        .catch(error => { //If not succeded
+            console.error("Could not get user location:", error);
+            alert("Could not get your location. Please ensure location services are enabled and try again, or use the search bar.");
+        });
+    });
+
+    //Search Button functionality
+    // Event listener for the search box
+    document.getElementById('search-box').addEventListener('input', function() {
+        const query = this.value;
+        const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
+        const evCharging = document.getElementById('ev-charging').checked;
+        const emergencyServices = document.getElementById('emergency-services').checked;
+        debouncedSearch(query, fuelType, evCharging, emergencyServices);
+    });
+
+     // Apply filters - Updated to call searchNearbyPlaces with filter values
+       document.getElementById('apply-filters').addEventListener('click', function() {
+           const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
+           const evCharging = document.getElementById('ev-charging').checked;
+           const emergencyServices = document.getElementById('emergency-services').checked;
+           searchNearbyPlaces("",fuelType,evCharging,emergencyServices);
+
+    });
+
+        // Modal functionality
         const signupModal = document.getElementById('signup-modal');
         const loginModal = document.getElementById('login-modal');
         const signupBtn = document.getElementById('signup-btn');
@@ -788,80 +745,47 @@
             signupModal.style.display = 'flex';
         });
 
-        // --- Form Submission (with basic validation) ---
+        // Sign Up and Login functionality (basic example)
         document.getElementById('signup-submit').addEventListener('click', () => {
             const username = document.getElementById('signup-username').value;
             const email = document.getElementById('signup-email').value;
             const password = document.getElementById('signup-password').value;
 
-            if (!username || !email || !password) {
+            if (username && email && password) {
+                alert(`Sign Up Successful!\nUsername: ${username}\nEmail: ${email}`);
+                signupModal.style.display = 'none';
+            } else {
                 alert('Please fill in all fields.');
-                return;
             }
-             if(!email.includes('@')){
-                alert('Invalid Email Address');
-                return;
-            }
-
-            alert(`Sign Up Successful!\nUsername: ${username}\nEmail: ${email}`);
-            signupModal.style.display = 'none';
         });
 
         document.getElementById('login-submit').addEventListener('click', () => {
             const username = document.getElementById('login-username').value;
             const password = document.getElementById('login-password').value;
 
-             if (username.trim() === '' || password.trim() === '') {
-              alert('Please enter both username and password.');
-              return;
+            if (username && password) {
+                alert(`Login Successful!\nUsername: ${username}`);
+                loginModal.style.display = 'none';
+            } else {
+                alert('Please fill in all fields.');
             }
-
-            alert(`Login Successful!\nUsername: ${username}`);
-            loginModal.style.display = 'none';
         });
 
-
-        // --- Close Menu on Outside Click ---
-        document.addEventListener('click', (event) => {
+        // JavaScript to close the menu when clicking outside
+        document.addEventListener('click', function(event) {
             const menuToggle = document.getElementById('menu-toggle');
             const slideMenu = document.querySelector('.slide-menu');
             const hamburgerMenu = document.querySelector('.hamburger-menu');
+
+            // Check if the menu is open and the click is outside the menu and the hamburger button
             if (menuToggle.checked && !slideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
-                menuToggle.checked = false;
+                menuToggle.checked = false; // Uncheck the checkbox to close the menu
             }
         });
 
-        function closeMenu() {
-            document.getElementById('menu-toggle').checked = false; //Uncheck it.
-            document.getElementById('about-section').style.display = 'none'; // Hide the section
-            document.getElementById('contact-section').style.display = 'none'; //Also hide this section
-            document.getElementById("home-section").style.display = "flex"; //show the home section again
-        }
-
-        //In the about us section
-            document.querySelector('a[href="#about-section"]').addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent default anchor behavior
-                document.getElementById('about-section').style.display = 'block'; // Show the section
-                document.getElementById("home-section").style.display = "none"; //Hide the section
-                closeMenu(); // Close the menu
-        });
-
-            //In the contact section
-            document.querySelector('a[href="#contact-section"]').addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent default anchor behavior
-                document.getElementById('contact-section').style.display = 'block';// Show the section
-                document.getElementById("home-section").style.display = "none"; //Hide the section
-                closeMenu(); // Close the menu
-        });
-
-            //In the home section
-            document.querySelector('a[href="#home-section"]').addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent default anchor behavior
-                document.getElementById("home-section").style.display = "flex"; //show the home section again
-                document.getElementById('about-section').style.display = 'none'; // Hide the section
-                document.getElementById('contact-section').style.display = 'none'; // Hide the section
-                closeMenu(); // Close the menu
-        });
+    function closeMenu() {
+        document.getElementById('menu-toggle').checked = false; //Uncheck it.
+    }
     </script>
 </body>
-    </html>
+</html>
