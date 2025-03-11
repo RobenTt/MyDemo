@@ -138,16 +138,18 @@
         .auth-buttons button:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
-
+        /*NEW*/
         .top-search-bar {
             display: flex;
             align-items: center;
-            order: 2;          /*  order changed */
+            order: 3;        /* Search bar *after* auth buttons */
             flex: 1;          /* Allow it to grow */
-            margin-left: 50px;  /* Add some left margin */
+            max-width: 60%;   /* Limit width on larger screens */
+            margin-left: 10px;
+            margin-right: 160px; /* Space for auth buttons on larger screens */
             z-index: 1;
-            margin-right: 160px;
         }
+
 
 
         .top-search-bar input {
@@ -386,16 +388,16 @@
             .hamburger-menu {
                 display: none; /* Hide hamburger on larger screens */
             }
-
+          /*NEW*/
             .auth-buttons {
-                top: 10px; /*Consistent with smaller media query*/
-                right: 20px;/*Consistent with smaller media query*/
+              top: 10px;
+              right:20px;
             }
             .top-search-bar{
-                margin-right: 160px; /*Consistent with smaller media query*/
-                /*max-width: 60%; /*Consistent with smaller media query*/
-                margin-left: 50px; /* NEW */
+              margin-right: 160px;
+              max-width: 60%;
             }
+
         }
 
         /* Smaller screens (up to 600px) - Mobile adjustments */
@@ -404,25 +406,21 @@
                 flex-direction: column;
                 align-items: stretch; /* Stretch items to full width */
             }
-
+          /*NEW*/
             .auth-buttons {
-                order: 3;   /* Place *after* search bar on small screens */
-                position: relative; /*  Relative positioning */
-                top: 0;       /*  Reset top */
-                right: 0;     /*  Reset right */
-                margin: 10px auto; /* Center horizontally */
-                width: fit-content;
-                justify-content: center; /*NEW*/
-
+              position: absolute;
+              top:10px;
+              right: 10px;
+              order: 2;
             }
-
             .top-search-bar {
-                order: 2;        /* Search bar *before* auth buttons */
+                order: 3;        /* Search bar *after* auth buttons */
                 max-width: 95%;  /* Allow it to take almost full width */
                 margin: 10px auto;  /* Center the search bar */
                 margin-right: 0px; /*Reset margin*/
                 margin-left: 10px;
             }
+
         }
 
         html {
