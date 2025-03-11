@@ -92,7 +92,7 @@
             color: white;
             text-decoration: none;
             display: block;
-            transition: background-color 0.3s ease;
+            transition: background-color: 0.3s ease;
         }
 
         .slide-menu a:hover {
@@ -133,12 +133,12 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.9rem;
-            transition: background-color 0.3s ease;
+            transition: background-color: 0.3s ease;
         }
         .auth-buttons button:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
-        /*NEW*/
+
         .top-search-bar {
             display: flex;
             align-items: center;
@@ -168,7 +168,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.9rem;
-            transition: background-color 0.3s ease;
+            transition: background-color: 0.3s ease;
         }
 
         .top-search-bar button:hover {
@@ -179,16 +179,18 @@
             display: flex;
             flex: 1;
             flex-direction: column;
+            /*  Removed min-height, as the content defines the height */
         }
 
-      #home-section{ /*NEW SECTION*/
+      #home-section{
             display: flex;
             flex-direction: column;
+            flex: 1 0 auto; /*  Important: Allows growing and shrinking, but sets a basis of 'auto' */
       }
 
         #map {
             flex: 2;
-            height: 50vh;
+            height: 50vh; /*  Relative height - adjust as needed */
             animation: fadeIn 1s ease-in-out;
             z-index: 1; /* Ensure map is below sidebar */
         }
@@ -220,7 +222,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.3s ease;
+            transition: background-color: 0.3s ease;
         }
 
         #locate-me:hover {
@@ -288,6 +290,8 @@
             color: white;
             text-align: center;
             padding: 20px;
+            width: 100%; /*  Ensure footer takes full width */
+            flex-shrink: 0; /*  Prevent footer from shrinking */
         }
 
         footer p {
@@ -388,7 +392,7 @@
             .hamburger-menu {
                 display: none; /* Hide hamburger on larger screens */
             }
-          /*NEW*/
+
             .auth-buttons {
               top: 10px;
               right:20px;
@@ -406,7 +410,7 @@
                 flex-direction: column;
                 align-items: stretch; /* Stretch items to full width */
             }
-          /*NEW*/
+
             .auth-buttons {
               position: absolute;
               top:10px;
