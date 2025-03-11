@@ -20,7 +20,6 @@
             height: 100vh;
             background-color: #f4f4f4;
             color: #333;
-            overflow-x: hidden; /* Prevent horizontal scroll on the body */
         }
 
         header {
@@ -29,21 +28,21 @@
             padding: 10px 20px;
             text-align: left;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
+            position: relative; /* Important for absolute positioning of children */
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            justify-content: space-between; /* Distributes space */
+            flex-wrap: wrap; /* Allows wrapping on smaller screens */
             min-height: 50px;
         }
 
         .hamburger-menu {
-            position: relative;
+            position: relative; /*  For the slide-out menu */
             margin-left: 10px;
-            order: 1;
+            order: 1;  /* Hamburger first on small screens */
         }
 
-        .menu-icon {
+        .menu-icon { /* Style for the hamburger icon itself */
             display: block;
             width: 30px;
             height: 30px;
@@ -51,7 +50,7 @@
             padding: 5px;
         }
 
-        .line {
+        .line { /* Style for each line of the hamburger */
             width: 100%;
             height: 3px;
             background-color: white;
@@ -59,10 +58,11 @@
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        #menu-toggle {
+        #menu-toggle { /* Hide the checkbox */
             display: none;
         }
 
+        /*  (slide-menu styles remain the same)  */
          .slide-menu {
             position: fixed;
             top: 0;
@@ -92,7 +92,7 @@
             color: white;
             text-decoration: none;
             display: block;
-            transition: background-color: 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
         .slide-menu a:hover {
@@ -116,12 +116,12 @@
         }
 
         .auth-buttons {
-            position: absolute;
+            position: absolute; /* Absolute positioning within the header */
             top: 10px;
             right: 20px;
             display: flex;
             align-items: center;
-            z-index: 3;
+            z-index: 3; /* Ensure it's above other elements */
         }
 
         .auth-buttons button {
@@ -129,29 +129,31 @@
             border: 1px solid white;
             color: white;
             padding: 8px 16px;
-            margin-left: 5px;
+            margin-left: 5px; /* Space between buttons */
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.9rem;
-            transition: background-color: 0.3s ease;
+            transition: background-color 0.3s ease;
         }
         .auth-buttons button:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
-
+        /*NEW*/
         .top-search-bar {
             display: flex;
             align-items: center;
-            order: 3;
-            flex: 1;
-            max-width: 60%;
+            order: 3;        /* Search bar *after* auth buttons */
+            flex: 1;          /* Allow it to grow */
+            max-width: 60%;   /* Limit width on larger screens */
             margin-left: 10px;
-            margin-right: 160px;
+            margin-right: 160px; /* Space for auth buttons on larger screens */
             z-index: 1;
         }
 
+
+
         .top-search-bar input {
-            flex: 1;
+            flex: 1; /* Input field takes up available space */
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -166,7 +168,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.9rem;
-            transition: background-color: 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
         .top-search-bar button:hover {
@@ -179,17 +181,16 @@
             flex-direction: column;
         }
 
-      #home-section{
+      #home-section{ /*NEW SECTION*/
             display: flex;
             flex-direction: column;
-            flex: 1 0 auto;
       }
 
         #map {
             flex: 2;
             height: 50vh;
             animation: fadeIn 1s ease-in-out;
-            z-index: 1;
+            z-index: 1; /* Ensure map is below sidebar */
         }
 
         .sidebar {
@@ -197,9 +198,8 @@
             padding: 20px;
             background-color: white;
             overflow-y: auto;
-            overflow-x: hidden; /* Hide horizontal scrollbar */
             box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-            z-index: 2;
+            z-index: 2; /* Set a higher z-index */
         }
 
         .sidebar .search-bar {
@@ -220,7 +220,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color: 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
         #locate-me:hover {
@@ -271,8 +271,6 @@
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 10px;
-            max-width: 100%;      /* Prevent list items from overflowing */
-            overflow-wrap: break-word; /* Wrap long words */
         }
 
         .station-list li strong {
@@ -290,8 +288,6 @@
             color: white;
             text-align: center;
             padding: 20px;
-            width: 100%;
-            flex-shrink: 0;
         }
 
         footer p {
@@ -326,6 +322,7 @@
             padding: 20px;
             border-radius: 10px;
             width: 300px;
+           /* max-width: 80%; /* Add this */
             text-align: center;
             position: relative;
         }
@@ -385,13 +382,13 @@
             }
 
             #map {
-                height: calc(100vh - 70px);
+                height: calc(100vh - 70px);  /* Adjust as needed */
             }
 
             .hamburger-menu {
-                display: none;
+                display: none; /* Hide hamburger on larger screens */
             }
-
+          /*NEW*/
             .auth-buttons {
               top: 10px;
               right:20px;
@@ -407,9 +404,9 @@
         @media (max-width: 600px) {
             header {
                 flex-direction: column;
-                align-items: stretch;
+                align-items: stretch; /* Stretch items to full width */
             }
-
+          /*NEW*/
             .auth-buttons {
               position: absolute;
               top:10px;
@@ -417,10 +414,10 @@
               order: 2;
             }
             .top-search-bar {
-                order: 3;
-                max-width: 95%;
-                margin: 10px auto;
-                margin-right: 0px;
+                order: 3;        /* Search bar *after* auth buttons */
+                max-width: 95%;  /* Allow it to take almost full width */
+                margin: 10px auto;  /* Center the search bar */
+                margin-right: 0px; /*Reset margin*/
                 margin-left: 10px;
             }
 
@@ -444,8 +441,8 @@
                 <ul>
                     <li><a href="#home-section" onclick="closeMenu()">Home</a></li>
                     <li><a href="#find-gas-section" onclick="closeMenu()">Find Gas</a></li>
-                    <li><a href="#about-section" onclick="closeMenu()">About Us</a></li>
-                    <li><a href="#contact-section" onclick="closeMenu()">Contact</a></li>
+                    <li><a href="#about-section" onclick="closeMenu()">About Us</a></li>  <!-- Back in the menu -->
+                    <li><a href="#contact-section" onclick="closeMenu()">Contact</a></li> <!-- Back in the menu -->
                 </ul>
             </nav>
         </div>
@@ -800,4 +797,4 @@
     }
     </script>
 </body>
-</html>
+    </html>
