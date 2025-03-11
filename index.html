@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
     <style>
-        body {
+       body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
@@ -31,21 +31,21 @@
             padding: 10px 20px;
             text-align: left;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative; /* Important for absolute positioning of children */
+            position: relative;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* Distributes space */
-            flex-wrap: wrap; /* Allows wrapping on smaller screens */
+            justify-content: space-between;
+            flex-wrap: wrap;
             min-height: 50px;
         }
 
         .hamburger-menu {
-            position: relative; /*  For the slide-out menu */
+            position: relative;
             margin-left: 10px;
-            order: 1;  /* Hamburger first on small screens */
+            order: 1;
         }
 
-        .menu-icon { /* Style for the hamburger icon itself */
+        .menu-icon {
             display: block;
             width: 30px;
             height: 30px;
@@ -53,7 +53,7 @@
             padding: 5px;
         }
 
-        .line { /* Style for each line of the hamburger */
+        .line {
             width: 100%;
             height: 3px;
             background-color: white;
@@ -61,12 +61,11 @@
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        #menu-toggle { /* Hide the checkbox */
+        #menu-toggle {
             display: none;
         }
 
-        /*  (slide-menu styles remain the same)  */
-         .slide-menu {
+        .slide-menu {
             position: fixed;
             top: 0;
             left: -250px;
@@ -119,12 +118,12 @@
         }
 
         .auth-buttons {
-            position: absolute; /* Absolute positioning within the header */
+            position: absolute;
             top: 10px;
             right: 20px;
             display: flex;
             align-items: center;
-            z-index: 3; /* Ensure it's above other elements */
+            z-index: 3;
         }
 
         .auth-buttons button {
@@ -132,31 +131,30 @@
             border: 1px solid white;
             color: white;
             padding: 8px 16px;
-            margin-left: 5px; /* Space between buttons */
+            margin-left: 5px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.9rem;
             transition: background-color 0.3s ease;
         }
+
         .auth-buttons button:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
-        /*NEW*/
+
         .top-search-bar {
             display: flex;
             align-items: center;
-            order: 3;        /* Search bar *after* auth buttons */
-            flex: 1;          /* Allow it to grow */
-            max-width: 60%;   /* Limit width on larger screens */
+            order: 3;
+            flex: 1;
+            max-width: 60%;
             margin-left: 10px;
-            margin-right: 160px; /* Space for auth buttons on larger screens */
+            margin-right: 160px;
             z-index: 1;
         }
 
-
-
         .top-search-bar input {
-            flex: 1; /* Input field takes up available space */
+            flex: 1;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -184,16 +182,16 @@
             flex-direction: column;
         }
 
-      #home-section{ /*NEW SECTION*/
+        #home-section {
             display: flex;
             flex-direction: column;
-      }
+        }
 
         #map {
             flex: 2;
             height: 50vh;
             animation: fadeIn 1s ease-in-out;
-            z-index: 1; /* Ensure map is below sidebar */
+            z-index: 1;
         }
 
         .sidebar {
@@ -202,14 +200,14 @@
             background-color: white;
             overflow-y: auto;
             box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-            z-index: 2; /* Set a higher z-index */
+            z-index: 2;
         }
 
         .sidebar .search-bar {
             display: none;
         }
 
-         #locate-me {
+        #locate-me {
             width: 100%;
             padding: 5px 10px;
             background-color: #28a745;
@@ -274,11 +272,11 @@
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 10px;
-            transition: background-color 0.3s ease; /* Add transition for hover effect */
+            transition: background-color 0.3s ease;
         }
 
         .station-list li:hover {
-            background-color: #f0f0f0; /* Light grey background on hover */
+            background-color: #f0f0f0;
         }
 
         .station-list li strong {
@@ -330,9 +328,9 @@
             padding: 20px;
             border-radius: 10px;
             width: 300px;
-            max-width: 80%; /* Add this */
-            max-height: 80vh; /* Add max-height for responsiveness */
-            overflow-y: auto;  /* Add scroll for overflow content */
+            max-width: 80%;
+            max-height: 80vh;
+            overflow-y: auto;
             text-align: center;
             position: relative;
         }
@@ -383,73 +381,70 @@
             cursor: pointer;
         }
 
-        /* --- Media Queries --- */
-
-        /* Larger screens (768px and up) */
+        /* Media Queries */
         @media (min-width: 768px) {
             .container {
                 flex-direction: row;
             }
 
             #map {
-                height: calc(100vh - 70px);  /* Adjust as needed */
+                height: calc(100vh - 70px);
             }
 
             .hamburger-menu {
-                display: none; /* Hide hamburger on larger screens */
-            }
-          /*NEW*/
-            .auth-buttons {
-              top: 10px;
-              right:20px;
-            }
-            .top-search-bar{
-              margin-right: 160px;
-              max-width: 60%;
+                display: none;
             }
 
+            .auth-buttons {
+                top: 10px;
+                right: 20px;
+            }
+
+            .top-search-bar {
+                margin-right: 160px;
+                max-width: 60%;
+            }
         }
 
-        /* Smaller screens (up to 600px) - Mobile adjustments */
         @media (max-width: 600px) {
             header {
                 flex-direction: column;
-                align-items: stretch; /* Stretch items to full width */
-            }
-          /*NEW*/
-            .auth-buttons {
-              position: absolute;
-              top:10px;
-              right: 10px;
-              order: 2;
-            }
-            .top-search-bar {
-                order: 3;        /* Search bar *after* auth buttons */
-                max-width: 95%;  /* Allow it to take almost full width */
-                margin: 10px auto;  /* Center the search bar */
-                margin-right: 0px; /*Reset margin*/
-                margin-left: 10px;
+                align-items: stretch;
             }
 
+            .auth-buttons {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                order: 2;
+            }
+
+            .top-search-bar {
+                order: 3;
+                max-width: 95%;
+                margin: 10px auto;
+                margin-right: 0px;
+                margin-left: 10px;
+            }
         }
 
         html {
-          scroll-behavior: smooth;
+            scroll-behavior: smooth;
         }
 
         /* Loading Spinner Styles */
         #loading-spinner {
-            position: absolute; /* Or fixed, depending on your layout */
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 999; /* Make sure it's on top */
-            display: none; /* Initially hidden */
+            z-index: 999;
+            display: none;
         }
 
         #loading-spinner i {
-            font-size: 2em; /* Adjust size as needed */
-            color: #007bff; /* Or any color you prefer */
+            font-size: 2em;
+            color: #007bff;
         }
     </style>
 </head>
@@ -479,45 +474,46 @@
         <div class="search-bar top-search-bar">
             <input type="text" id="search-box" placeholder="Enter location or address...">
             <button id="search-button"><i class="fas fa-search"></i></button>
-            <button id="clear-search-button" style="display: none;"><i class="fas fa-times"></i></button> <!--Initially hidden-->
+            <button id="clear-search-button" style="display: none;"><i class="fas fa-times"></i></button>
         </div>
-
     </header>
-  <div id = "home-section">
-    <div class="container">
-        <div id="map"></div>
-          <!-- Loading Spinner Container -->
-        <div id="loading-spinner">
-            <i class="fas fa-spinner fa-spin"></i>  <!-- Font Awesome spinner -->
-        </div>
-        <div class="sidebar">
-            <button id="locate-me"><i class="fas fa-map-marker-alt"></i> Location</button>
-            <div class="filters">
-                <h3>Filters</h3>
-                <div class="fuel-options">
-                    <label><input type="radio" name="fuel-type" value="petrol"> <i class="fas fa-gas-pump"></i> Petrol</label>
-                    <label><input type="radio" name="fuel-type" value="diesel"> <i class="fas fa-gas-pump"></i> Diesel</label>
-                </div>
-                <label><i class="fas fa-plug"></i><input type="checkbox" id="ev-charging"> EV Charging</label>
-                <label><i class="fas fa-ambulance"></i><input type="checkbox" id="emergency-services"> Emergency Services</label>
-                <button id="apply-filters">Apply Filters</button>
+
+    <div id="home-section">
+        <div class="container">
+            <div id="map"></div>
+            <!-- Loading Spinner -->
+            <div id="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
             </div>
-            <div class="station-list">
-                <h3>Nearby Places</h3>
-                <ul id="places">
-                    <!-- Nearby places will be added here dynamically -->
-                </ul>
+            <div class="sidebar">
+                <button id="locate-me"><i class="fas fa-map-marker-alt"></i> Locate Me</button>
+                <div class="filters">
+                    <h3>Filters</h3>
+                    <div class="fuel-options">
+                        <label><input type="radio" name="fuel-type" value="petrol"> <i class="fas fa-gas-pump"></i> Petrol</label>
+                        <label><input type="radio" name="fuel-type" value="diesel"> <i class="fas fa-gas-pump"></i> Diesel</label>
+                    </div>
+                    <label><i class="fas fa-plug"></i><input type="checkbox" id="ev-charging"> EV Charging</label>
+                    <label><i class="fas fa-ambulance"></i><input type="checkbox" id="emergency-services"> Emergency Services</label>
+                    <button id="apply-filters">Apply Filters</button>
+                </div>
+                <div class="station-list">
+                    <h3>Nearby Places</h3>
+                    <ul id="places">
+                        <!-- Nearby places will be added dynamically -->
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-  </div>
-    <!-- About Us Section (Hidden by default) -->
+
+    <!-- About Us Section -->
     <div id="about-section" style="padding: 20px; background-color: #eee; display: none;">
         <h2>About Us</h2>
         <p>This is the about us section content.</p>
     </div>
 
-    <!-- Contact Section (Hidden by default) -->
+    <!-- Contact Section -->
     <div id="contact-section" style="padding: 20px; background-color: #ddd; display: none;">
         <h2>Contact</h2>
         <p>Contact form and information here.</p>
@@ -559,237 +555,211 @@
 
     <!-- Include Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <!-- Include Leaflet MarkerCluster JavaScript (Optional, for clustering) -->
+    <!-- Include Leaflet MarkerCluster JS -->
     <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
     <script>
-      // Initialize the map
-        const map = L.map('map').setView([0, 0], 13); // Default center
-        const markers = L.markerClusterGroup(); // Use MarkerClusterGroup
-        map.addLayer(markers); // Add the cluster group to the map.
-        // Add OpenStreetMap tiles (default view)
+        // --- Map Initialization ---
+        const map = L.map('map').setView([0, 0], 13);
+        const markers = L.markerClusterGroup(); // Create a MarkerClusterGroup
+        map.addLayer(markers);  // Add the cluster group to the map
+
         const osmTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         });
-
-        // Add Esri World Imagery tiles (satellite view)
         const esriTiles = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
             attribution: '© Esri'
         });
-
-        // Add default tiles (OpenStreetMap)
         osmTiles.addTo(map);
 
-        // Layer control for switching between map views
-        const baseLayers = {
+        L.control.layers({
             "Street View": osmTiles,
-            "Satellite View": esriTiles,
-        };
-        L.control.layers(baseLayers).addTo(map);
+            "Satellite View": esriTiles
+        }).addTo(map);
 
 
-        //Improved Function
+        // --- Geolocation ---
         let userLocation;
 
-    function getUserLocation() {
-        return new Promise((resolve, reject) => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        userLocation = [position.coords.latitude, position.coords.longitude];
-                        resolve(userLocation);
-                    },
-                    (error) => {
-                        let errorMessage = "Could not get your location. ";
-                        switch (error.code) {
-                            case error.PERMISSION_DENIED:
-                                errorMessage += "User denied the request for Geolocation.";
-                                break;
-                            case error.POSITION_UNAVAILABLE:
-                                errorMessage += "Location information is unavailable.";
-                                break;
-                            case error.TIMEOUT:
-                                errorMessage += "The request to get user location timed out.";
-                                break;
-                            default:
-                                errorMessage += "An unknown error occurred.";
-                                break;
+        function getUserLocation() {
+            return new Promise((resolve, reject) => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            userLocation = [position.coords.latitude, position.coords.longitude];
+                            resolve(userLocation);
+                        },
+                        (error) => {
+                            let errorMessage = "Could not get your location. ";
+                            switch (error.code) {
+                                case error.PERMISSION_DENIED:
+                                    errorMessage += "User denied the request for Geolocation.";
+                                    break;
+                                case error.POSITION_UNAVAILABLE:
+                                    errorMessage += "Location information is unavailable.";
+                                    break;
+                                case error.TIMEOUT:
+                                    errorMessage += "The request to get user location timed out.";
+                                    break;
+                                default:
+                                    errorMessage += "An unknown error occurred.";
+                                    break;
+                            }
+                            reject(new Error(errorMessage));
                         }
-                        reject(new Error(errorMessage)); // Reject with specific error message
-                    }
-                );
-            } else {
-                reject(new Error("Geolocation is not supported by this browser.")); // Reject if not supported
-            }
-        });
-    }
-
-
-    function searchNearbyPlaces(query, fuelType, evCharging, emergencyServices) {
-        const locationToUse = userLocation || [40.7128, -74.0060]; //Default location
-        let baseUrl = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1`;
-
-        let url = baseUrl;
-        let queryParams = [];
-
-        // Add location if provided
-        if (query) {
-            queryParams.push(`q=${encodeURIComponent(query)}`);
-        }
-
-        queryParams.push(`lat=${locationToUse[0]}`);
-        queryParams.push(`lon=${locationToUse[1]}`);
-        queryParams.push('zoom=13');
-
-        // Add amenity filter if any options are selected
-    	let amenity = "";
-    	if (fuelType || evCharging || emergencyServices) {
-        if (fuelType == 'petrol' || fuelType == 'diesel') amenity = amenity + "fuel,";
-        if (evCharging) amenity = amenity + "charging_station,";
-        if (emergencyServices) amenity = amenity + "fire_station,police,";
-        amenity = amenity.slice(0, -1);
-        queryParams.push(`amenity=${amenity}`);
-    	}
-
-        // Combine query parameters
-        if (queryParams.length > 0) {
-            url += '&' + queryParams.join('&');
-        }
-
-        // Clear existing places list
-        const placesList = document.getElementById('places');
-        placesList.innerHTML = ''; //Clear list before each search
-
-        document.getElementById('loading-spinner').style.display = 'block';// Show loader
-       // Rest of your fetch code remains the same...
-       fetch(url)
-    	.then(response => {
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok: ${response.status} - ${response.statusText}`); // More detail
-                }
-                return response.json();
-            })
-            .then(data => {
-                document.getElementById('loading-spinner').style.display = 'none';// Hide loader
-                // Clear existing markers
-                markers.clearLayers(); // Use clearLayers() for MarkerClusterGroup
-
-
-                // Add markers for each result
-                data.forEach(place => {
-                   const marker = L.marker([place.lat, place.lon]);
-                    marker.bindPopup(`
-                        <strong>${place.display_name}</strong><br>
-                        <small>Category: ${place.type}</small>
-                    `);
-                    markers.addLayer(marker); // Add to the cluster group
-
-
-                    // Add place to the sidebar list
-                    const li = document.createElement('li');
-                    li.innerHTML = `
-                        <strong>${place.display_name}</strong><br>
-                        <small>Category: ${place.type}</small>
-                    `;
-                    // Add click event listener to list items
-                    li.addEventListener('click', () => {
-                        map.setView([place.lat, place.lon], 15);
-                        marker.openPopup();
-                    });
-                    placesList.appendChild(li);
-                });
-
-                // Center the map on the first result, or the default location if no results
-                if (data.length > 0) {
-                    map.setView([data[0].lat, data[0].lon], 13);
+                    );
                 } else {
-                    map.setView(locationToUse, 13); // Center on default if no results
-                    //ONLY SHOW IF SEARCHED
-                    if(query) alert("No results found for your query."); // Only show if search
+                    reject(new Error("Geolocation is not supported by this browser."));
                 }
+            });
+        }
+
+
+        // --- Search Function ---
+        function searchNearbyPlaces(query, fuelType, evCharging, emergencyServices) {
+            const locationToUse = userLocation || [40.7128, -74.0060];
+            let baseUrl = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1`;
+            let url = baseUrl;
+            let queryParams = [];
+
+            if (query) {
+                queryParams.push(`q=${encodeURIComponent(query)}`);
+            }
+
+            queryParams.push(`lat=${locationToUse[0]}`);
+            queryParams.push(`lon=${locationToUse[1]}`);
+            queryParams.push('zoom=13');
+
+            let amenity = "";
+            if (fuelType || evCharging || emergencyServices) {
+                if (fuelType == 'petrol' || fuelType == 'diesel') amenity += "fuel,";
+                if (evCharging) amenity += "charging_station,";
+                if (emergencyServices) amenity += "fire_station,police,";
+                amenity = amenity.slice(0, -1); // Remove trailing comma
+                queryParams.push(`amenity=${amenity}`);
+            }
+
+            if (queryParams.length > 0) {
+                url += '&' + queryParams.join('&');
+            }
+
+            const placesList = document.getElementById('places');
+            placesList.innerHTML = '';
+            document.getElementById('loading-spinner').style.display = 'block';
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Network response was not ok: ${response.status} - ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('loading-spinner').style.display = 'none';
+                    markers.clearLayers();
+
+                    data.forEach(place => {
+                        const marker = L.marker([place.lat, place.lon]);
+                        marker.bindPopup(`<strong>${place.display_name}</strong><br><small>Category: ${place.type}</small>`);
+                        markers.addLayer(marker);
+
+                        const li = document.createElement('li');
+                        li.innerHTML = `<strong>${place.display_name}</strong><br><small>Category: ${place.type}</small>`;
+                        li.addEventListener('click', () => {
+                            map.setView([place.lat, place.lon], 15);
+                            marker.openPopup();
+                        });
+                        placesList.appendChild(li);
+                    });
+
+                    if (data.length > 0) {
+                        map.setView([data[0].lat, data[0].lon], 13);
+                    } else {
+                        map.setView(locationToUse, 13);
+                        if (query) alert("No results found for your query.");
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('loading-spinner').style.display = 'none';
+                    console.error('Error fetching data:', error);
+                    let errorMessage = "An error occurred while searching. Please try again.";
+                    if (error.message.startsWith("Network response was not ok")) {
+                        errorMessage = "There was a problem connecting to the server. Please check your internet connection.";
+                    }
+                    alert(errorMessage);
+                });
+        }
+
+
+        // --- Debounced Search ---
+        let searchTimeout;
+        function debouncedSearch(query, fuelType, evCharging, emergencyServices) {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                searchNearbyPlaces(query, fuelType, evCharging, emergencyServices);
+            }, 300);
+        }
+
+
+        // --- Event Listeners ---
+
+        // Initial Location and Map Setup
+        getUserLocation()
+            .then(location => {
+                map.setView(location, 13);
+                L.marker(location).addTo(map).bindPopup("Your Location").openPopup();
             })
-             .catch(error => {
-                document.getElementById('loading-spinner').style.display = 'none';// Hide loader
-                console.error('Error fetching data:', error);
-                let errorMessage = "An error occurred while searching. Please try again.";
-                if (error.message.startsWith("Network response was not ok")) {
-                   errorMessage = "There was a problem connecting to the server.  Please check your internet connection.";
-                }
-              alert(errorMessage);
+            .catch(error => {
+                console.error("Could not get user location:", error);
+                alert(error.message);
+                map.setView([40.7128, -74.0060], 10);  // Default to NYC
             });
 
-    }
+        // Locate Me Button
+        document.getElementById('locate-me').addEventListener('click', () => {
+            getUserLocation()
+            .then(location => {
+                map.setView(location, 13);
+                L.marker(location).addTo(map).bindPopup("Your Location").openPopup();
+            })
+            .catch(error => {
+                console.error("Could not get user location:", error);
+                alert(error.message); // Use the specific error message from the promise rejection
+            });
+        });
 
-    let searchTimeout; // Variable to hold the timeout
+        // Search Input
+        document.getElementById('search-box').addEventListener('input', function() {
+            const query = this.value;
+            const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
+            const evCharging = document.getElementById('ev-charging').checked;
+            const emergencyServices = document.getElementById('emergency-services').checked;
+            if (query) {
+                document.getElementById('clear-search-button').style.display = 'inline-block';
+            } else {
+                document.getElementById('clear-search-button').style.display = 'none';
+            }
+            debouncedSearch(query, fuelType, evCharging, emergencyServices);
+        });
 
-    function debouncedSearch(query, fuelType, evCharging, emergencyServices) {
-        clearTimeout(searchTimeout); // Clear any previous timeout
-        searchTimeout = setTimeout(() => {
+        // Clear Search Button
+        document.getElementById('clear-search-button').addEventListener('click', () => {
+            document.getElementById('search-box').value = '';
+            document.getElementById('clear-search-button').style.display = 'none';
+            markers.clearLayers();
+            document.getElementById('places').innerHTML = '';
+        });
+
+        // Apply Filters Button
+        document.getElementById('apply-filters').addEventListener('click', () => {
+            const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
+            const evCharging = document.getElementById('ev-charging').checked;
+            const emergencyServices = document.getElementById('emergency-services').checked;
+            const query = document.getElementById('search-box').value; // Get current query
             searchNearbyPlaces(query, fuelType, evCharging, emergencyServices);
-        }, 300); // 300ms delay
-    }
-
-    // Call getUserLocation when the page loads, and handle success/failure
-    getUserLocation()
-        .then(location => {
-            map.setView(location, 13);
-            L.marker(location).addTo(map).bindPopup("Your Location").openPopup();
-        })
-        .catch(error => {
-            console.error("Could not get user location:", error);
-            alert("Could not get your location. Please ensure location services are enabled and try again, or use the search bar.");
-             // Set a default map view if geolocation fails.
-            map.setView([40.7128, -74.0060], 10); // Example: New York City
         });
 
-    //Locate me functionality
-    document.getElementById('locate-me').addEventListener('click', function() {
-        getUserLocation() //Gets user location
-        .then(location => { //If succeded
-            map.setView(location, 13);
-            L.marker(location).addTo(map).bindPopup("Your Location").openPopup();
-        })
-        .catch(error => { //If not succeded
-            console.error("Could not get user location:", error);
-            alert(error.message); // Use the specific error message
-        });
-    });
-
-
-      //Search and Clear Search button functionality
-    // Event listener for the search box
-    document.getElementById('search-box').addEventListener('input', function() {
-        const query = this.value;
-        const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
-        const evCharging = document.getElementById('ev-charging').checked;
-        const emergencyServices = document.getElementById('emergency-services').checked;
-
-        if (query) {
-            document.getElementById('clear-search-button').style.display = 'inline-block'; // Show clear button
-        } else {
-            document.getElementById('clear-search-button').style.display = 'none';    // Hide clear button
-        }
-
-        debouncedSearch(query, fuelType, evCharging, emergencyServices);
-    });
-
-    document.getElementById('clear-search-button').addEventListener('click', function() {
-        document.getElementById('search-box').value = ''; // Clear the search box
-        this.style.display = 'none'; // Hide the clear button
-        markers.clearLayers(); //Clear map layers
-        document.getElementById('places').innerHTML = ''; //Clear the place list
-    });
-
-     // Apply filters - Updated to call searchNearbyPlaces with filter values
-       document.getElementById('apply-filters').addEventListener('click', function() {
-           const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
-           const evCharging = document.getElementById('ev-charging').checked;
-           const emergencyServices = document.getElementById('emergency-services').checked;
-            const query = document.getElementById('search-box').value; //GET QUERY VALUE
-           searchNearbyPlaces(query,fuelType,evCharging,emergencyServices); //USE IT
-
-    });
-
-        // Modal functionality
+        // --- Modal Event Listeners ---
         const signupModal = document.getElementById('signup-modal');
         const loginModal = document.getElementById('login-modal');
         const signupBtn = document.getElementById('signup-btn');
@@ -827,62 +797,52 @@
             signupModal.style.display = 'flex';
         });
 
-        // Sign Up and Login functionality (basic example)
+        // --- Form Submission (with basic validation) ---
         document.getElementById('signup-submit').addEventListener('click', () => {
             const username = document.getElementById('signup-username').value;
             const email = document.getElementById('signup-email').value;
             const password = document.getElementById('signup-password').value;
-            //BASIC VALIDATION, add more robust validation
-            if (username.trim() === '' || email.trim() === '' || password.trim() === '') {
+
+            if (!username || !email || !password) {
                 alert('Please fill in all fields.');
                 return;
             }
-
-            if(!email.includes('@')){
+             if(!email.includes('@')){
                 alert('Invalid Email Address');
                 return;
             }
 
-            if (username && email && password) {
-                alert(`Sign Up Successful!\nUsername: ${username}\nEmail: ${email}`);
-                signupModal.style.display = 'none';
-            } else {
-                alert('Please fill in all fields.');
-            }
+            alert(`Sign Up Successful!\nUsername: ${username}\nEmail: ${email}`);
+            signupModal.style.display = 'none';
         });
 
         document.getElementById('login-submit').addEventListener('click', () => {
             const username = document.getElementById('login-username').value;
             const password = document.getElementById('login-password').value;
 
-            if (username.trim() === '' || password.trim() === '') {
+             if (username.trim() === '' || password.trim() === '') {
               alert('Please enter both username and password.');
               return;
             }
 
-            if (username && password) {
-                alert(`Login Successful!\nUsername: ${username}`);
-                loginModal.style.display = 'none';
-            } else {
-                alert('Please fill in all fields.');
-            }
+            alert(`Login Successful!\nUsername: ${username}`);
+            loginModal.style.display = 'none';
         });
 
-        // JavaScript to close the menu when clicking outside
-        document.addEventListener('click', function(event) {
+
+        // --- Close Menu on Outside Click ---
+        document.addEventListener('click', (event) => {
             const menuToggle = document.getElementById('menu-toggle');
             const slideMenu = document.querySelector('.slide-menu');
             const hamburgerMenu = document.querySelector('.hamburger-menu');
-
-            // Check if the menu is open and the click is outside the menu and the hamburger button
             if (menuToggle.checked && !slideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
-                menuToggle.checked = false; // Uncheck the checkbox to close the menu
+                menuToggle.checked = false;
             }
         });
 
-    function closeMenu() {
-        document.getElementById('menu-toggle').checked = false; //Uncheck it.
-    }
+        function closeMenu() {
+            document.getElementById('menu-toggle').checked = false;
+        }
     </script>
 </body>
     </html>
