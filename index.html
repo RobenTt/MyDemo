@@ -144,9 +144,9 @@
             align-items: center;
             order: 3;          /* Search bar *after* hamburger and buttons on small screens */
             flex: 1;          /* Allow it to grow */
-            max-width: 60%;  /* Limit width to prevent overlap (Adjust as needed!)*/
+           /* max-width: 60%;  /* Limit width to prevent overlap (Adjust as needed!)*/
             margin-left: 10px;
-            margin-right: 150px; /* Space for auth buttons on larger screens */
+           /* margin-right: 150px; /* Space for auth buttons on larger screens */
             z-index: 1;
         }
 
@@ -178,6 +178,11 @@
             flex: 1;
             flex-direction: column;
         }
+
+      #home-section{ /*NEW SECTION*/
+            display: flex;
+            flex-direction: column;
+      }
 
         #map {
             flex: 2;
@@ -315,6 +320,7 @@
             padding: 20px;
             border-radius: 10px;
             width: 300px;
+           /* max-width: 80%; /* Add this */
             text-align: center;
             position: relative;
         }
@@ -386,7 +392,7 @@
                 right: 20px;/*Consistent with smaller media query*/
             }
             .top-search-bar{
-                margin-right: 150px; /*Consistent with smaller media query*/
+               /* margin-right: 150px; /*Consistent with smaller media query*/
                 max-width: 60%; /*Consistent with smaller media query*/
             }
         }
@@ -415,6 +421,10 @@
                 margin-left: 10px;
             }
         }
+
+        html {
+          scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body>
@@ -428,10 +438,10 @@
             </label>
             <nav class="slide-menu">
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Find Gas</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="#home-section" onclick="closeMenu()">Home</a></li>
+                    <li><a href="#find-gas-section" onclick="closeMenu()">Find Gas</a></li>
+                    <li><a href="#about-section" onclick="closeMenu()">About Us</a></li>
+                    <li><a href="#contact-section" onclick="closeMenu()">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -447,6 +457,7 @@
         </div>
 
     </header>
+  <div id = "home-section">
     <div class="container">
         <div id="map"></div>
         <div class="sidebar">
@@ -469,6 +480,16 @@
             </div>
         </div>
     </div>
+    <div id="about-section" style="padding: 20px; background-color: #eee;">
+      <h2>About Us</h2>
+      <p>This is the about us section content.</p>
+    </div>
+
+    <div id="contact-section"  style="padding: 20px; background-color: #ddd;">
+        <h2>Contact</h2>
+        <p>Contact form and information here.</p>
+    </div>
+  </div>
     <footer>
         <p>© 2023 Gas Station Finder. All rights reserved.</p>
         <div>
@@ -506,7 +527,7 @@
     <!-- Include Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-// Initialize the map
+      // Initialize the map
         const map = L.map('map').setView([0, 0], 13); // Default center
         const markers = [];
         // Add OpenStreetMap tiles (default view)
@@ -552,22 +573,39 @@
     }
 
 
-      function searchNearbyPlaces(query, fuelType, evCharging, emergencyServices) {
+    function searchNearbyPlaces(query, fuelType, evCharging, emergencyServices) {
         const locationToUse = userLocation || [40.7128, -74.0060]; //Default location
-        let url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&lat=${locationToUse[0]}&lon=${locationToUse[1]}&zoom=13&addressdetails=1`;
-        //Add the filters
-        let amenity = "";
-        if(fuelType || evCharging || emergencyServices){
-            if(fuelType == 'petrol') amenity = amenity + "fuel,";
-            if(fuelType == 'diesel') amenity = amenity + "fuel,";
-            if(evCharging) amenity = amenity + "charging_station,";
-            if(emergencyServices) amenity = amenity +"fire_station,police,";
-            amenity = amenity.slice(0,-1);
-            url = url + `&amenity=${amenity}`;
+        let baseUrl = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1`;
+
+        let url = baseUrl;
+        let queryParams = [];
+
+        // Add location if provided
+        if (query) {
+            queryParams.push(`q=${encodeURIComponent(query)}`);
         }
-        //Other code that uses url
-        fetch(url)
-            .then(response => {
+
+        queryParams.push(`lat=${locationToUse[0]}`);
+        queryParams.push(`lon=${locationToUse[1]}`);
+        queryParams.push('zoom=13');
+
+        // Add amenity filter if any options are selected
+    	let amenity = "";
+    	if (fuelType || evCharging || emergencyServices) {
+        if (fuelType == 'petrol' || fuelType == 'diesel') amenity = amenity + "fuel,";
+        if (evCharging) amenity = amenity + "charging_station,";
+        if (emergencyServices) amenity = amenity + "fire_station,police,";
+        amenity = amenity.slice(0, -1);
+        queryParams.push(`amenity=${amenity}`);
+    	}
+
+        // Combine query parameters
+        if (queryParams.length > 0) {
+            url += '&' + queryParams.join('&');
+        }
+       // Rest of your fetch code remains the same...
+       fetch(url)
+    	.then(response => {
                 if (!response.ok) {
                     throw new Error(`Network response was not ok: ${response.status}`);
                 }
@@ -596,6 +634,11 @@
                         <strong>${place.display_name}</strong><br>
                         <small>Category: ${place.type}</small>
                     `;
+                    // Add click event listener to list items
+                    li.addEventListener('click', () => {
+                        map.setView([place.lat, place.lon], 15);
+                        marker.openPopup();
+                    });
                     placesList.appendChild(li);
                 });
 
@@ -612,6 +655,16 @@
                 console.error('Error fetching data:', error);
                 alert("An error occurred while searching. Please try again.");
             });
+
+    }
+
+    let searchTimeout; // Variable to hold the timeout
+
+    function debouncedSearch(query, fuelType, evCharging, emergencyServices) {
+        clearTimeout(searchTimeout); // Clear any previous timeout
+        searchTimeout = setTimeout(() => {
+            searchNearbyPlaces(query, fuelType, evCharging, emergencyServices);
+        }, 300); // 300ms delay
     }
 
     // Call getUserLocation when the page loads, and handle success/failure
@@ -619,8 +672,6 @@
         .then(location => {
             map.setView(location, 13);
             L.marker(location).addTo(map).bindPopup("Your Location").openPopup();
-             // Now that you have the location, you could trigger an initial search here
-            //searchNearbyPlaces(""); // Initial search with empty query COMMENTED
         })
         .catch(error => {
             console.error("Could not get user location:", error);
@@ -643,12 +694,13 @@
     });
 
     //Search Button functionality
-     document.getElementById('search-button').addEventListener('click', function() {
-        const query = document.getElementById('search-box').value;
+    // Event listener for the search box
+    document.getElementById('search-box').addEventListener('input', function() {
+        const query = this.value;
         const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
         const evCharging = document.getElementById('ev-charging').checked;
         const emergencyServices = document.getElementById('emergency-services').checked;
-        searchNearbyPlaces(query,fuelType,evCharging,emergencyServices);
+        debouncedSearch(query, fuelType, evCharging, emergencyServices);
     });
 
      // Apply filters - Updated to call searchNearbyPlaces with filter values
@@ -735,6 +787,10 @@
                 menuToggle.checked = false; // Uncheck the checkbox to close the menu
             }
         });
+
+    function closeMenu() {
+        document.getElementById('menu-toggle').checked = false; //Uncheck it.
+    }
     </script>
 </body>
 </html>
