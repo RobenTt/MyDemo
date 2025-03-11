@@ -17,7 +17,7 @@
             padding: 0;
             display: flex;
             flex-direction: column;
-            min-height: 100vh; /* Use min-height instead of height */
+            height: 100vh;
             background-color: #f4f4f4;
             color: #333;
         }
@@ -138,18 +138,16 @@
         .auth-buttons button:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
-        /*NEW*/
+
         .top-search-bar {
             display: flex;
             align-items: center;
-            order: 3;        /* Search bar *after* auth buttons */
+            order: 2;          /*  order changed */
             flex: 1;          /* Allow it to grow */
-            max-width: 60%;   /* Limit width on larger screens */
-            margin-left: 10px;
-            margin-right: 160px; /* Space for auth buttons on larger screens */
+            margin-left: 50px;  /* Add some left margin */
             z-index: 1;
+            margin-right: 160px;
         }
-
 
 
         .top-search-bar input {
@@ -259,9 +257,9 @@
         }
 
         .station-list {
-           /* display: grid; Remove this to allow natural flow */
-            /*grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); Remove*/
-            /*gap: 10px; Remove*/
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
             list-style-type: none;
             padding: 0;
         }
@@ -271,7 +269,6 @@
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 10px;
-            margin-bottom: 10px; /* Add spacing between list items */
         }
 
         .station-list li strong {
@@ -389,16 +386,16 @@
             .hamburger-menu {
                 display: none; /* Hide hamburger on larger screens */
             }
-          /*NEW*/
+
             .auth-buttons {
-              top: 10px;
-              right:20px;
+                top: 10px; /*Consistent with smaller media query*/
+                right: 20px;/*Consistent with smaller media query*/
             }
             .top-search-bar{
-              margin-right: 160px;
-              max-width: 60%;
+                margin-right: 160px; /*Consistent with smaller media query*/
+                /*max-width: 60%; /*Consistent with smaller media query*/
+                margin-left: 50px; /* NEW */
             }
-
         }
 
         /* Smaller screens (up to 600px) - Mobile adjustments */
@@ -407,21 +404,25 @@
                 flex-direction: column;
                 align-items: stretch; /* Stretch items to full width */
             }
-          /*NEW*/
+
             .auth-buttons {
-              position: absolute;
-              top:10px;
-              right: 10px;
-              order: 2;
+                order: 3;   /* Place *after* search bar on small screens */
+                position: relative; /*  Relative positioning */
+                top: 0;       /*  Reset top */
+                right: 0;     /*  Reset right */
+                margin: 10px auto; /* Center horizontally */
+                width: fit-content;
+                justify-content: center; /*NEW*/
+
             }
+
             .top-search-bar {
-                order: 3;        /* Search bar *after* auth buttons */
+                order: 2;        /* Search bar *before* auth buttons */
                 max-width: 95%;  /* Allow it to take almost full width */
                 margin: 10px auto;  /* Center the search bar */
                 margin-right: 0px; /*Reset margin*/
                 margin-left: 10px;
             }
-
         }
 
         html {
@@ -442,8 +443,8 @@
                 <ul>
                     <li><a href="#home-section" onclick="closeMenu()">Home</a></li>
                     <li><a href="#find-gas-section" onclick="closeMenu()">Find Gas</a></li>
-                    <li><a href="#about-section" onclick="closeMenu()">About Us</a></li>
-                    <li><a href="#contact-section" onclick="closeMenu()">Contact</a></li>
+                    <li><a href="#about-section" onclick="closeMenu()">About Us</a></li>  <!-- Back in the menu -->
+                    <li><a href="#contact-section" onclick="closeMenu()">Contact</a></li> <!-- Back in the menu -->
                 </ul>
             </nav>
         </div>
@@ -460,7 +461,7 @@
 
     </header>
   <div id = "home-section">
-    <div id="find-gas-section" class="container"> <!---Added Id -->
+    <div class="container">
         <div id="map"></div>
         <div class="sidebar">
             <button id="locate-me"><i class="fas fa-map-marker-alt"></i> Location</button>
