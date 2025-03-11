@@ -142,13 +142,13 @@
         .top-search-bar {
             display: flex;
             align-items: center;
-            order: 3;          /* Search bar *after* hamburger and buttons on small screens */
+            order: 2;          /*  order changed */
             flex: 1;          /* Allow it to grow */
-           /* max-width: 60%;  /* Limit width to prevent overlap (Adjust as needed!)*/
-            margin-left: 10px;
-           /* margin-right: 150px; /* Space for auth buttons on larger screens */
+            margin-left: 50px;  /* Add some left margin */
             z-index: 1;
+            margin-right: 160px;
         }
+
 
         .top-search-bar input {
             flex: 1; /* Input field takes up available space */
@@ -392,8 +392,9 @@
                 right: 20px;/*Consistent with smaller media query*/
             }
             .top-search-bar{
-               /* margin-right: 150px; /*Consistent with smaller media query*/
-                max-width: 60%; /*Consistent with smaller media query*/
+                margin-right: 160px; /*Consistent with smaller media query*/
+                /*max-width: 60%; /*Consistent with smaller media query*/
+                margin-left: 50px; /* NEW */
             }
         }
 
@@ -403,18 +404,20 @@
                 flex-direction: column;
                 align-items: stretch; /* Stretch items to full width */
             }
-            /*Crucial part*/
+
             .auth-buttons {
-                position: absolute; /* Keep absolute, but adjust */
-                top: 10px;
-                right: 10px;
-                margin: 0; /* Reset margins */
-                order: 2;   /* Place after hamburger */
+                order: 3;   /* Place *after* search bar on small screens */
+                position: relative; /*  Relative positioning */
+                top: 0;       /*  Reset top */
+                right: 0;     /*  Reset right */
+                margin: 10px auto; /* Center horizontally */
+                width: fit-content;
+                justify-content: center; /*NEW*/
 
             }
 
             .top-search-bar {
-                order: 3;        /* Search bar *after* auth buttons */
+                order: 2;        /* Search bar *before* auth buttons */
                 max-width: 95%;  /* Allow it to take almost full width */
                 margin: 10px auto;  /* Center the search bar */
                 margin-right: 0px; /*Reset margin*/
@@ -440,12 +443,12 @@
                 <ul>
                     <li><a href="#home-section" onclick="closeMenu()">Home</a></li>
                     <li><a href="#find-gas-section" onclick="closeMenu()">Find Gas</a></li>
-                    <li><a href="#about-section" onclick="closeMenu()">About Us</a></li>
-                    <li><a href="#contact-section" onclick="closeMenu()">Contact</a></li>
+                    <li><a href="#about-section" onclick="closeMenu()">About Us</a></li>  <!-- Back in the menu -->
+                    <li><a href="#contact-section" onclick="closeMenu()">Contact</a></li> <!-- Back in the menu -->
                 </ul>
             </nav>
         </div>
-        <!-- Auth buttons - Now positioned correctly -->
+        <!-- Auth buttons -->
         <div class="auth-buttons">
             <button id="signup-btn">Sign Up</button>
             <button id="login-btn">Login</button>
@@ -480,16 +483,19 @@
             </div>
         </div>
     </div>
-    <div id="about-section" style="padding: 20px; background-color: #eee;">
-      <h2>About Us</h2>
-      <p>This is the about us section content.</p>
+  </div>
+    <!-- About Us Section (Hidden by default) -->
+    <div id="about-section" style="padding: 20px; background-color: #eee; display: none;">
+        <h2>About Us</h2>
+        <p>This is the about us section content.</p>
     </div>
 
-    <div id="contact-section"  style="padding: 20px; background-color: #ddd;">
+    <!-- Contact Section (Hidden by default) -->
+    <div id="contact-section" style="padding: 20px; background-color: #ddd; display: none;">
         <h2>Contact</h2>
         <p>Contact form and information here.</p>
     </div>
-  </div>
+
     <footer>
         <p>© 2023 Gas Station Finder. All rights reserved.</p>
         <div>
@@ -793,4 +799,4 @@
     }
     </script>
 </body>
-</html>
+    </html>
