@@ -747,7 +747,768 @@
 
         // JavaScript to close the menu when clicking outside
         document.addEventListener('click', function(event) {
+            const menuTogg<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gas Station Finder</title>
+    <!-- Include Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Include Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #007BFF, #00BFFF);
+            color: white;
+            padding: 10px 20px;
+            text-align: left;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative; /* Important for absolute positioning of children */
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Distributes space */
+            flex-wrap: wrap; /* Allows wrapping on smaller screens */
+            min-height: 50px;
+        }
+
+        .hamburger-menu {
+            position: relative; /*  For the slide-out menu */
+            margin-left: 10px;
+            order: 1;  /* Hamburger first on small screens */
+        }
+
+        .menu-icon { /* Style for the hamburger icon itself */
+            display: block;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .line { /* Style for each line of the hamburger */
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            margin-bottom: 5px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        #menu-toggle { /* Hide the checkbox */
+            display: none;
+        }
+
+        /*  (slide-menu styles remain the same)  */
+         .slide-menu {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            padding-top: 60px;
+            transition: left 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+            color: white;
+        }
+
+        .slide-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .slide-menu li {
+            padding: 15px 20px;
+            border-bottom: 1px solid #444;
+        }
+
+        .slide-menu a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            transition: background-color: 0.3s ease;
+        }
+
+        .slide-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        #menu-toggle:checked ~ .slide-menu {
+            left: 0;
+        }
+
+        #menu-toggle:checked ~ .menu-icon .line:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        #menu-toggle:checked ~ .menu-icon .line:nth-child(2) {
+            opacity: 0;
+        }
+
+        #menu-toggle:checked ~ .menu-icon .line:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        .auth-buttons {
+            position: absolute; /* Absolute positioning within the header */
+            top: 10px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            z-index: 3; /* Ensure it's above other elements */
+        }
+
+        .auth-buttons button {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 8px 16px;
+            margin-left: 5px; /* Space between buttons */
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color: 0.3s ease;
+        }
+        .auth-buttons button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .top-search-bar {
+            display: flex;
+            align-items: center;
+            order: 3;          /* Search bar *after* hamburger and buttons on small screens */
+            flex: 1;          /* Allow it to grow */
+            max-width: 60%;  /* Limit width to prevent overlap (Adjust as needed!)*/
+            margin-left: 10px;
+            margin-right: 150px; /* Space for auth buttons on larger screens */
+            z-index: 1;
+        }
+
+        .top-search-bar input {
+            flex: 1; /* Input field takes up available space */
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .top-search-bar button {
+            padding: 8px 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color: 0.3s ease;
+        }
+
+        .top-search-bar button:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+        }
+
+        #map {
+            flex: 2;
+            height: 50vh;
+            animation: fadeIn 1s ease-in-out;
+            z-index: 1; /* Ensure map is below sidebar */
+        }
+
+        .sidebar {
+            flex: 1;
+            padding: 20px;
+            background-color: white;
+            overflow-y: auto;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 2; /* Set a higher z-index */
+        }
+
+        .sidebar .search-bar {
+            display: none;
+        }
+
+         #locate-me {
+            width: 100%;
+            padding: 5px 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color: 0.3s ease;
+        }
+
+        #locate-me:hover {
+            background-color: #218838;
+        }
+
+        #locate-me i {
+            margin-right: 5px;
+        }
+
+        .filters {
+            margin-bottom: 20px;
+        }
+
+        .filters h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .filters label {
+            display: block;
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .filters label i {
+            margin-right: 5px;
+        }
+
+        .fuel-options {
+            margin-bottom: 10px;
+        }
+
+        .fuel-options label {
+            margin-right: 10px;
+        }
+
+        .station-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .station-list li {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+
+        .station-list li strong {
+            display: block;
+            font-size: 1.1rem;
+        }
+
+        .station-list li small {
+            display: block;
+            color: #666;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        footer a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #007BFF;
+        }
+         /* --- Modal Styles --- */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Ensure it's on top */
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%; /* Responsive width */
+            max-width: 350px; /* Limit maximum width */
+            text-align: center;
+            position: relative; /* For positioning the close button */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: #333; /* Darker heading color */
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; /* Include padding and border in the width */
+        }
+
+        .modal-content button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background-color: 0.3s ease;
+        }
+
+        .modal-content button:hover {
+            background-color: #0056b3;
+        }
+
+        .modal-content a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .modal-content a:hover {
+            text-decoration: underline;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #555;
+            padding: 0;
+            line-height: 1;
+            border: none; /* Remove any border */
+
+            /* The Key Fixes: Overriding ALL background properties */
+            background: none;          /* No background image or color */
+            background-color: transparent; /* Explicitly transparent */
+            -webkit-appearance: none;  /* Remove default styling (Safari/Chrome) */
+            -moz-appearance: none;     /* Remove default styling (Firefox) */
+            appearance: none;          /* Standard property to remove defaults */
+        }
+
+        .close-modal:hover {
+            color: #000;
+        }
+        .close-modal:focus {  /* Remove the focus outline */
+            outline: none;
+        }
+
+        /* --- Media Queries --- */
+
+        /* Larger screens (768px and up) */
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
+
+            #map {
+                height: calc(100vh - 70px);  /* Adjust as needed */
+            }
+
+            .hamburger-menu {
+                display: none; /* Hide hamburger on larger screens */
+            }
+
+            .auth-buttons {
+                top: 10px; /*Consistent with smaller media query*/
+                right: 20px;/*Consistent with smaller media query*/
+            }
+            .top-search-bar{
+                margin-right: 150px; /*Consistent with smaller media query*/
+                max-width: 60%; /*Consistent with smaller media query*/
+            }
+        }
+
+        /* Smaller screens (up to 600px) - Mobile adjustments */
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: stretch; /* Stretch items to full width */
+            }
+            /*Crucial part*/
+            .auth-buttons {
+                position: absolute; /* Keep absolute, but adjust */
+                top: 10px;
+                right: 10px;
+                margin: 0; /* Reset margins */
+                order: 2;   /* Place after hamburger */
+
+            }
+
+            .top-search-bar {
+                order: 3;        /* Search bar *after* auth buttons */
+                max-width: 95%;  /* Allow it to take almost full width */
+                margin: 10px auto;  /* Center the search bar */
+                margin-right: 0px; /*Reset margin*/
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="hamburger-menu">
+            <input type="checkbox" id="menu-toggle">
+            <label for="menu-toggle" class="menu-icon">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </label>
+            <nav class="slide-menu">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Find Gas</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Auth buttons - Now positioned correctly -->
+        <div class="auth-buttons">
+            <button id="signup-btn">Sign Up</button>
+            <button id="login-btn">Login</button>
+        </div>
+
+        <div class="search-bar top-search-bar">
+            <input type="text" id="search-box" placeholder="Enter location or address...">
+            <button id="search-button"><i class="fas fa-search"></i></button>
+        </div>
+
+    </header>
+    <div class="container">
+        <div id="map"></div>
+        <div class="sidebar">
+            <button id="locate-me"><i class="fas fa-map-marker-alt"></i> Location</button>
+            <div class="filters">
+                <h3>Filters</h3>
+                <div class="fuel-options">
+                    <label><input type="radio" name="fuel-type" value="petrol"> <i class="fas fa-gas-pump"></i> Petrol</label>
+                    <label><input type="radio" name="fuel-type" value="diesel"> <i class="fas fa-gas-pump"></i> Diesel</label>
+                </div>
+                <label><i class="fas fa-plug"></i><input type="checkbox" id="ev-charging"> EV Charging</label>
+                <label><i class="fas fa-ambulance"></i><input type="checkbox" id="emergency-services"> Emergency Services</label>
+                <button id="apply-filters">Apply Filters</button>
+            </div>
+            <div class="station-list">
+                <h3>Nearby Places</h3>
+                <ul id="places">
+                    <!-- Nearby places will be added here dynamically -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>© 2023 Gas Station Finder. All rights reserved.</p>
+        <div>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+
+    <!-- Sign Up Modal -->
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-signup">×</button>
+            <h2>Sign Up</h2>
+            <input type="text" id="signup-username" placeholder="Username">
+            <input type="email" id="signup-email" placeholder="Email">
+            <input type="password" id="signup-password" placeholder="Password">
+            <button id="signup-submit">Sign Up</button>
+            <p>Already have an account? <a href="#" id="login-link">Login</a></p>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-login">×</button>
+            <h2>Login</h2>
+            <input type="text" id="login-username" placeholder="Username">
+            <input type="password" id="login-password" placeholder="Password">
+            <button id="login-submit">Login</button>
+            <p>Don't have an account? <a href="#" id="signup-link">Sign Up</a></p>
+        </div>
+    </div>
+
+    <!-- Include Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+// Initialize the map
+        const map = L.map('map').setView([0, 0], 13); // Default center
+        const markers = [];
+        // Add OpenStreetMap tiles (default view)
+        const osmTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        });
+
+        // Add Esri World Imagery tiles (satellite view)
+        const esriTiles = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '© Esri'
+        });
+
+        // Add default tiles (OpenStreetMap)
+        osmTiles.addTo(map);
+
+        // Layer control for switching between map views
+        const baseLayers = {
+            "Street View": osmTiles,
+            "Satellite View": esriTiles,
+        };
+        L.control.layers(baseLayers).addTo(map);
+
+
+        //Improved Function
+        let userLocation;
+
+    function getUserLocation() {
+        return new Promise((resolve, reject) => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLocation = [position.coords.latitude, position.coords.longitude];
+                        resolve(userLocation);
+                    },
+                    (error) => {
+                        reject(error); // Reject the promise on error
+                    }
+                );
+            } else {
+                reject(new Error("Geolocation is not supported by this browser.")); // Reject if not supported
+            }
+        });
+    }
+
+
+      function searchNearbyPlaces(query, fuelType, evCharging, emergencyServices) {
+        const locationToUse = userLocation || [40.7128, -74.0060]; //Default location
+        let url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&lat=${locationToUse[0]}&lon=${locationToUse[1]}&zoom=13&addressdetails=1`;
+        //Add the filters
+        let amenity = "";
+        if(fuelType || evCharging || emergencyServices){
+            if(fuelType == 'petrol') amenity = amenity + "fuel,";
+            if(fuelType == 'diesel') amenity = amenity + "fuel,";
+            if(evCharging) amenity = amenity + "charging_station,";
+            if(emergencyServices) amenity = amenity +"fire_station,police,";
+            amenity = amenity.slice(0,-1);
+            url = url + `&amenity=${amenity}`;
+        }
+        //Other code that uses url
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Clear existing markers
+                markers.forEach(marker => map.removeLayer(marker));
+                markers.length = 0;
+
+                // Clear existing places list
+                const placesList = document.getElementById('places');
+                placesList.innerHTML = '';
+                // Add markers for each result
+                data.forEach(place => {
+                    const marker = L.marker([place.lat, place.lon]).addTo(map);
+                    marker.bindPopup(`
+                        <strong>${place.display_name}</strong><br>
+                        <small>Category: ${place.type}</small>
+                    `);
+                    markers.push(marker);
+
+                    // Add place to the sidebar list
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <strong>${place.display_name}</strong><br>
+                        <small>Category: ${place.type}</small>
+                    `;
+                    placesList.appendChild(li);
+                });
+
+                // Center the map on the first result, or the default location if no results
+                if (data.length > 0) {
+                    map.setView([data[0].lat, data[0].lon], 13);
+                } else {
+                    map.setView(locationToUse, 13); // Center on default if no results
+                    //ONLY SHOW IF SEARCHED
+                    if(query) alert("No results found for your query."); // Only show if search
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                alert("An error occurred while searching. Please try again.");
+            });
+    }
+
+    // Call getUserLocation when the page loads, and handle success/failure
+    getUserLocation()
+        .then(location => {
+            map.setView(location, 13);
+            L.marker(location).addTo(map).bindPopup("Your Location").openPopup();
+             // Now that you have the location, you could trigger an initial search here
+            //searchNearbyPlaces(""); // Initial search with empty query COMMENTED
+        })
+        .catch(error => {
+            console.error("Could not get user location:", error);
+            alert("Could not get your location. Please ensure location services are enabled and try again, or use the search bar.");
+             // Set a default map view if geolocation fails.
+            map.setView([40.7128, -74.0060], 10); // Example: New York City
+        });
+
+    //Locate me functionality
+    document.getElementById('locate-me').addEventListener('click', function() {
+        getUserLocation() //Gets user location
+        .then(location => { //If succeded
+            map.setView(location, 13);
+            L.marker(location).addTo(map).bindPopup("Your Location").openPopup();
+        })
+        .catch(error => { //If not succeded
+            console.error("Could not get user location:", error);
+            alert("Could not get your location. Please ensure location services are enabled and try again, or use the search bar.");
+        });
+    });
+
+    //Search Button functionality
+     document.getElementById('search-button').addEventListener('click', function() {
+        const query = document.getElementById('search-box').value;
+        const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
+        const evCharging = document.getElementById('ev-charging').checked;
+        const emergencyServices = document.getElementById('emergency-services').checked;
+        searchNearbyPlaces(query,fuelType,evCharging,emergencyServices);
+    });
+
+     // Apply filters - Updated to call searchNearbyPlaces with filter values
+       document.getElementById('apply-filters').addEventListener('click', function() {
+           const fuelType = document.querySelector('input[name="fuel-type"]:checked')?.value;
+           const evCharging = document.getElementById('ev-charging').checked;
+           const emergencyServices = document.getElementById('emergency-services').checked;
+           searchNearbyPlaces("",fuelType,evCharging,emergencyServices);
+
+    });
+
+        // Modal functionality
+        const signupModal = document.getElementById('signup-modal');
+        const loginModal = document.getElementById('login-modal');
+        const signupBtn = document.getElementById('signup-btn');
+        const loginBtn = document.getElementById('login-btn');
+        const closeSignup = document.getElementById('close-signup');
+        const closeLogin = document.getElementById('close-login');
+        const loginLink = document.getElementById('login-link');
+        const signupLink = document.getElementById('signup-link');
+
+        signupBtn.addEventListener('click', () => {
+            signupModal.style.display = 'flex';
+        });
+
+        loginBtn.addEventListener('click', () => {
+            loginModal.style.display = 'flex';
+        });
+
+        closeSignup.addEventListener('click', () => {
+            signupModal.style.display = 'none';
+        });
+
+        closeLogin.addEventListener('click', () => {
+            loginModal.style.display = 'none';
+        });
+
+        loginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupModal.style.display = 'none';
+            loginModal.style.display = 'flex';
+        });
+
+        signupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.style.display = 'none';
+            signupModal.style.display = 'flex';
+        });
+
+        // Sign Up and Login functionality (basic example)
+        document.getElementById('signup-submit').addEventListener('click', () => {
+            const username = document.getElementById('signup-username').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+
+            if (username && email && password) {
+                alert(`Sign Up Successful!\nUsername: ${username}\nEmail: ${email}`);
+                signupModal.style.display = 'none';
+            } else {
+                alert('Please fill in all fields.');
+            }
+        });
+
+        document.getElementById('login-submit').addEventListener('click', () => {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            if (username && password) {
+                alert(`Login Successful!\nUsername: ${username}`);
+                loginModal.style.display = 'none';
+            } else {
+                alert('Please fill in all fields.');
+            }
+        });
+
+        // JavaScript to close the menu when clicking outside
+        document.addEventListener('click', function(event) {
             const menuToggle = document.getElementById('menu-toggle');
+            const slideMenu = document.querySelector('.slide-menu');
+            const hamburgerMenu = document.querySelector('.hamburger-menu');
+
+            // Check if the menu is open and the click is outside the menu and the hamburger button
+            if (menuToggle.checked && !slideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
+                menuToggle.checked = false; // Uncheck the checkbox to close the menu
+            }
+        });
+    </script>
+</body>
+</html>
+le = document.getElementById('menu-toggle');
             const slideMenu = document.querySelector('.slide-menu');
             const hamburgerMenu = document.querySelector('.hamburger-menu');
 
