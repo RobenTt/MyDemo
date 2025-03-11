@@ -259,9 +259,9 @@
         }
 
         .station-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
+           /* display: grid; Remove this to allow natural flow */
+            /*grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); Remove*/
+            /*gap: 10px; Remove*/
             list-style-type: none;
             padding: 0;
         }
@@ -271,6 +271,7 @@
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 10px;
+            margin-bottom: 10px; /* Add spacing between list items */
         }
 
         .station-list li strong {
@@ -441,8 +442,8 @@
                 <ul>
                     <li><a href="#home-section" onclick="closeMenu()">Home</a></li>
                     <li><a href="#find-gas-section" onclick="closeMenu()">Find Gas</a></li>
-                    <li><a href="#about-section" onclick="closeMenu()">About Us</a></li>  <!-- Back in the menu -->
-                    <li><a href="#contact-section" onclick="closeMenu()">Contact</a></li> <!-- Back in the menu -->
+                    <li><a href="#about-section" onclick="closeMenu()">About Us</a></li>
+                    <li><a href="#contact-section" onclick="closeMenu()">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -459,7 +460,7 @@
 
     </header>
   <div id = "home-section">
-    <div class="container">
+    <div id="find-gas-section" class="container"> <!---Added Id -->
         <div id="map"></div>
         <div class="sidebar">
             <button id="locate-me"><i class="fas fa-map-marker-alt"></i> Location</button>
